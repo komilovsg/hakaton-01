@@ -1,0 +1,157 @@
+.channels-table {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+  &.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    
+    p {
+      color: #6b7280;
+      font-size: 16px;
+      text-align: center;
+    }
+  }
+  
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    
+    h3 {
+      margin: 0;
+      font-size: 20px;
+      color: #1f2937;
+    }
+    
+    .channels-count {
+      color: #6b7280;
+      font-size: 14px;
+    }
+  }
+  
+  .table-wrapper {
+    overflow-x: auto;
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      
+      thead {
+        background: #f9fafb;
+        
+        th {
+          padding: 12px;
+          text-align: left;
+          font-size: 12px;
+          font-weight: 600;
+          color: #4b5563;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          border-bottom: 2px solid #e5e7eb;
+          white-space: nowrap;
+        }
+      }
+      
+      tbody {
+        tr {
+          border-bottom: 1px solid #e5e7eb;
+          transition: background-color 0.2s;
+          
+          &:hover {
+            background: #f9fafb;
+          }
+          
+          td {
+            padding: 12px;
+            font-size: 14px;
+            color: #1f2937;
+            
+            &.channel-name {
+              font-weight: 600;
+              color: #0284c7;
+            }
+            
+            &.high-loss {
+              color: #dc2626;
+              font-weight: 600;
+            }
+          }
+        }
+      }
+    }
+    
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      
+      &.status-critical {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+      
+      &.status-high-loss {
+        background: #fef3c7;
+        color: #d97706;
+      }
+      
+      &.status-normal {
+        background: #d1fae5;
+        color: #059669;
+      }
+    }
+    
+    .actions {
+      display: flex;
+      gap: 8px;
+      
+      button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        
+        &:hover {
+          background: #f3f4f6;
+        }
+        
+        &.edit-btn:hover {
+          background: #dbeafe;
+        }
+        
+        &.remove-btn:hover {
+          background: #fee2e2;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .channels-table {
+    padding: 16px;
+    
+    .table-wrapper {
+      table {
+        font-size: 12px;
+        
+        thead th,
+        tbody td {
+          padding: 8px 4px;
+        }
+      }
+    }
+  }
+}
+

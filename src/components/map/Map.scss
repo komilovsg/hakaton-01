@@ -1,0 +1,48 @@
+.map-container {
+  width: 100%;
+  height: 600px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  position: relative;
+  
+  .map-switcher {
+    position: absolute;
+    top: 60px; // Поднимаем выше, чтобы не закрывать кнопки + и -
+    right: 10px;
+    z-index: 1000;
+    background: white;
+    padding: 8px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .map-wrapper {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.channel-popup {
+  min-width: 200px;
+  
+  h3 {
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    color: #1f2937;
+  }
+  
+  .popup-info {
+    p {
+      margin: 6px 0;
+      font-size: 14px;
+      color: #4b5563;
+      
+      strong {
+        color: #1f2937;
+      }
+    }
+  }
+}
+

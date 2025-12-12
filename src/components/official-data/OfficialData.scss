@@ -1,0 +1,977 @@
+.official-data {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 60px;
+  
+  h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 32px 0;
+    padding-bottom: 16px;
+    border-bottom: 3px solid #0284c7;
+  }
+  
+  .data-section,
+  .formulas-section,
+  .sources-section {
+    margin-bottom: 40px;
+    
+    h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2937;
+      margin: 0 0 16px 0;
+    }
+    
+    p {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #4b5563;
+      margin: 0 0 16px 0;
+    }
+  }
+  
+  .data-table-wrapper {
+    overflow-x: auto;
+    margin: 24px 0;
+    
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      
+      thead {
+        background: #f9fafb;
+        
+        th {
+          padding: 12px;
+          text-align: left;
+          font-size: 14px;
+          font-weight: 600;
+          color: #374151;
+          border-bottom: 2px solid #e5e7eb;
+        }
+      }
+      
+      tbody {
+        tr {
+          border-bottom: 1px solid #e5e7eb;
+          
+          &:hover {
+            background: #f9fafb;
+          }
+          
+          td {
+            padding: 12px;
+            font-size: 14px;
+            color: #1f2937;
+            vertical-align: top;
+            
+            &.highlight {
+              font-weight: 700;
+              color: #dc2626;
+              font-size: 16px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Стили для заголовков таблиц с кнопками
+.table-header-with-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.table-wrapper-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  
+  h3, h4 {
+    margin: 0;
+  }
+  
+  .table-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
+  }
+  
+  .chart-button,
+  .ai-analysis-button {
+    margin-left: 0;
+  }
+}
+
+// Контейнер для графиков
+.chart-container {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table16-section {
+    margin-bottom: 40px;
+
+    h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2937;
+      margin: 0 0 24px 0;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #0284c7;
+    }
+
+    h4 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1f2937;
+      margin: 32px 0 16px 0;
+    }
+
+    .table16-part1-wrapper,
+    .table16-part2-wrapper {
+      margin-bottom: 32px;
+      overflow-x: auto;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      background: #f9fafb;
+    }
+
+    .table16 {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      min-width: 1200px;
+
+      thead {
+        background: #eef2ff;
+
+        th {
+          padding: 12px 10px;
+          text-align: center;
+          font-size: 13px;
+          font-weight: 700;
+          color: #1f2937;
+          border: 1px solid #cbd5e1;
+          vertical-align: middle;
+
+          &:first-child {
+            min-width: 50px;
+          }
+
+          &:nth-child(2) {
+            min-width: 280px;
+            text-align: left;
+            padding-left: 12px;
+          }
+
+          &:nth-child(3) {
+            min-width: 120px;
+          }
+
+          &:nth-child(4) {
+            min-width: 80px;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid #e5e7eb;
+
+          &:nth-child(odd) {
+            background: #fff;
+          }
+
+          &:nth-child(even) {
+            background: #f8fafc;
+          }
+
+          &:hover {
+            background: #f0f9ff;
+          }
+
+          td {
+            padding: 10px;
+            text-align: center;
+            font-size: 13px;
+            color: #1f2937;
+            border: 1px solid #e5e7eb;
+            vertical-align: middle;
+
+            &:first-child {
+              font-weight: 600;
+              text-align: center;
+            }
+
+            &.name-cell {
+              text-align: left;
+              font-weight: 500;
+              padding-left: 12px;
+            }
+
+            &:nth-child(3) {
+              font-weight: 600;
+            }
+
+            &:nth-child(4) {
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .table14-section {
+    margin-bottom: 40px;
+
+    h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2937;
+      margin: 0 0 16px 0;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #0284c7;
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #4b5563;
+      margin: 0 0 20px 0;
+    }
+
+    .table14-wrapper {
+      overflow-x: auto;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      background: #f9fafb;
+    }
+
+    .table14 {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      min-width: 1400px;
+
+      thead {
+        background: #eef2ff;
+
+        th {
+          padding: 12px 10px;
+          text-align: center;
+          font-size: 12px;
+          font-weight: 700;
+          color: #1f2937;
+          border: 1px solid #cbd5e1;
+          vertical-align: middle;
+
+          &:first-child {
+            min-width: 50px;
+          }
+
+          &:nth-child(2) {
+            min-width: 200px;
+            text-align: left;
+            padding-left: 12px;
+          }
+
+          &:nth-child(3) {
+            min-width: 120px;
+          }
+
+          &:nth-child(4) {
+            min-width: 250px;
+            text-align: left;
+            padding-left: 12px;
+          }
+
+          // Заголовки декад - одинаковая ширина
+          &:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)) {
+            min-width: 90px;
+            width: 90px;
+            max-width: 90px;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid #e5e7eb;
+
+          &:nth-child(odd) {
+            background: #fff;
+          }
+
+          &:nth-child(even) {
+            background: #f8fafc;
+          }
+
+          &:hover {
+            background: #f0f9ff;
+          }
+
+          td {
+            padding: 10px 8px;
+            text-align: center;
+            font-size: 12px;
+            color: #1f2937;
+            border: 1px solid #e5e7eb;
+            vertical-align: middle;
+
+            &:first-child {
+              font-weight: 600;
+              text-align: center;
+            }
+
+            &.name-cell {
+              text-align: left;
+              font-weight: 500;
+              padding-left: 12px;
+              font-size: 11px;
+            }
+
+            // Ячейки с данными (декады) - одинаковая ширина для 4 цифр
+            // Исключаем: первая колонка (№), вторая (название), третья (длина), четвертая (формулы)
+            &:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)):not(.name-cell):not(.formula-cell) {
+              min-width: 90px;
+              width: 90px;
+              max-width: 90px;
+            }
+
+            &.formula-cell {
+              text-align: left;
+              padding: 12px;
+              font-size: 11px;
+              line-height: 1.6;
+              font-family: 'Courier New', monospace;
+              background: #f9fafb;
+
+              div {
+                margin-bottom: 4px;
+
+                &:last-child {
+                  margin-bottom: 0;
+                }
+
+                sub,
+                sup {
+                  font-size: 9px;
+                }
+              }
+            }
+
+            &.editable-cell {
+              padding: 4px;
+
+              input {
+                width: 100%;
+                padding: 6px 8px;
+                border: 1px solid #d1d5db;
+                border-radius: 4px;
+                font-size: 12px;
+                text-align: center;
+                background: white;
+                transition: border-color 0.2s ease;
+
+                &:focus {
+                  outline: none;
+                  border-color: #0284c7;
+                  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.1);
+                }
+
+                &::placeholder {
+                  color: #9ca3af;
+                }
+              }
+            }
+
+            &:nth-child(3) {
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .decadal-section {
+    margin-bottom: 40px;
+
+    .decadal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+
+      h3 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1f2937;
+        margin: 0;
+      }
+
+      .edit-mode-btn {
+        padding: 10px 20px;
+        background: #0284c7;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 14px;
+        transition: background 0.2s ease;
+
+        &:hover {
+          background: #0369a1;
+        }
+      }
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #4b5563;
+      margin: 0 0 12px 0;
+    }
+
+    .add-row-btn {
+      margin-bottom: 16px;
+      padding: 10px 20px;
+      background: #10b981;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: #059669;
+      }
+    }
+
+    .decadal-table-wrapper {
+      overflow-x: auto;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      background: #f9fafb;
+    }
+
+    .decadal-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1080px;
+
+      th,
+      td {
+        border: 1px solid #e5e7eb;
+        padding: 10px 12px;
+        text-align: center;
+        font-size: 13px;
+      }
+
+      thead {
+        background: #eef2ff;
+
+        th {
+          font-weight: 700;
+          color: #1f2937;
+        }
+      }
+
+      tbody {
+        tr:nth-child(odd) {
+          background: #fff;
+        }
+
+        tr:nth-child(even) {
+          background: #f8fafc;
+        }
+
+        td:first-child {
+          text-align: left;
+          font-weight: 600;
+          color: #0f172a;
+        }
+
+        td:nth-child(2) {
+          font-weight: 600;
+          color: #0f172a;
+        }
+
+        .name-cell input,
+        .area-cell input {
+          width: 100%;
+          padding: 6px 8px;
+          border: 1px solid #d1d5db;
+          border-radius: 6px;
+          font-size: 13px;
+        }
+
+        td input[type='number'] {
+          width: 100%;
+          padding: 6px 8px;
+          border: 1px solid #d1d5db;
+          border-radius: 6px;
+          font-size: 13px;
+        }
+
+        .total-cell {
+          min-width: 180px;
+          text-align: left;
+
+          .month-total {
+            font-size: 12px;
+            margin-bottom: 4px;
+          }
+
+          .season-total {
+            margin-top: 6px;
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 13px;
+          }
+        }
+
+        .actions-cell {
+          min-width: 110px;
+
+          .remove-btn {
+            width: 100%;
+            padding: 8px 10px;
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s ease, transform 0.1s ease;
+
+            &:hover {
+              background: #dc2626;
+            }
+
+            &:active {
+              transform: translateY(1px);
+            }
+          }
+        }
+      }
+    }
+
+    .decadal-totals {
+      margin-top: 24px;
+      padding: 20px;
+      background: #f0f9ff;
+      border-radius: 8px;
+      border: 1px solid #bae6fd;
+
+      .row-totals {
+        margin-bottom: 20px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        h4 {
+          font-size: 16px;
+          font-weight: 700;
+          color: #1f2937;
+          margin: 0 0 12px 0;
+        }
+
+        .totals-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+          gap: 12px;
+
+          .month-total {
+            font-size: 14px;
+            color: #4b5563;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+
+            strong {
+              color: #1f2937;
+              display: block;
+              margin-bottom: 4px;
+            }
+          }
+
+          .season-total {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0284c7;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+            border: 2px solid #0284c7;
+
+            strong {
+              display: block;
+              margin-bottom: 4px;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .formula-block {
+    background: #f9fafb;
+    padding: 24px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    border-left: 4px solid #0284c7;
+    
+    h4 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1f2937;
+      margin: 0 0 12px 0;
+    }
+    
+    .formula {
+      background: white;
+      padding: 20px;
+      border-radius: 6px;
+      margin: 16px 0;
+      border: 1px solid #e5e7eb;
+      
+      code {
+        font-size: 18px;
+        color: #1f2937;
+        font-family: 'Courier New', monospace;
+        line-height: 1.8;
+        display: block;
+        text-align: center;
+        
+        sub {
+          font-size: 12px;
+        }
+      }
+      
+      &.complex {
+        code {
+          font-size: 14px;
+          text-align: left;
+          line-height: 2;
+        }
+      }
+    }
+    
+    .formula-explanation {
+      margin-top: 16px;
+      
+      p {
+        margin: 0 0 12px 0;
+        font-size: 14px;
+        
+        strong {
+          color: #1f2937;
+        }
+      }
+      
+      ul {
+        margin: 0;
+        padding-left: 24px;
+        
+        li {
+          margin: 8px 0;
+          font-size: 14px;
+          line-height: 1.6;
+          color: #4b5563;
+          
+          strong {
+            color: #1f2937;
+          }
+        }
+      }
+      
+      .note {
+        background: #fef3c7;
+        padding: 12px;
+        border-radius: 6px;
+        border-left: 3px solid #f59e0b;
+        margin-top: 12px;
+        font-size: 13px;
+        color: #78350f;
+      }
+    }
+  }
+
+  .loss-formula-section {
+    margin: 40px 0;
+    padding: 20px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+
+    p {
+      color: #4b5563;
+      font-size: 14px;
+    }
+
+    .loss-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+
+      .loss-field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        label {
+          font-weight: 600;
+          color: #0f172a;
+          font-size: 14px;
+        }
+
+        input {
+          padding: 10px 12px;
+          border: 1px solid #d1d5db;
+          border-radius: 8px;
+          font-size: 14px;
+        }
+      }
+    }
+
+    .loss-result {
+      margin-top: 14px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 12px;
+
+      .loss-row {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 600;
+        color: #0f172a;
+        font-size: 14px;
+        margin-bottom: 6px;
+      }
+
+      .loss-note {
+        font-size: 13px;
+        color: #4b5563;
+        margin-top: 8px;
+      }
+    }
+  }
+  
+  .sources-section {
+    background: #f0f9ff;
+    padding: 24px;
+    border-radius: 8px;
+    
+    .sources-list {
+      margin: 16px 0 0 0;
+      padding-left: 24px;
+      
+      li {
+        margin: 12px 0;
+        font-size: 15px;
+        line-height: 1.8;
+        color: #4b5563;
+        
+        strong {
+          color: #1f2937;
+        }
+      }
+    }
+  }
+
+  .formulas-content {
+    position: relative;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding-bottom 0.2s ease;
+
+    &.collapsed {
+      max-height: 20vh;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 80px;
+        background: linear-gradient(to bottom, rgba(249, 250, 251, 0) 0%, rgba(249, 250, 251, 1) 100%);
+        pointer-events: none;
+      }
+    }
+
+    &.expanded {
+      max-height: none;
+    }
+  }
+
+  .formulas-toggle {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+  }
+
+  .toggle-button {
+    background: #0284c7;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+
+    &:hover {
+      background: #0369a1;
+    }
+
+    &:active {
+      transform: translateY(1px);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .official-data {
+    padding: 24px;
+    
+    h2 {
+      font-size: 24px;
+    }
+    
+    .data-section,
+    .formulas-section,
+    .sources-section {
+      h3 {
+        font-size: 20px;
+      }
+    }
+    
+    .formula-block {
+      padding: 16px;
+      
+      .formula {
+        padding: 16px;
+        
+        code {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
+// Стили для ИИ-анализа
+.ai-analysis-loading {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ai-analysis-result {
+  .analysis-header {
+    h4 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    
+    .priority-badge {
+      font-size: 12px;
+      font-weight: 600;
+    }
+  }
+  
+  .analysis-content {
+    .analysis-text {
+      background-color: #e0f2fe; // Светло-синий фон для анализа
+      border-left: 4px solid #0284c7;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+      
+      h5 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #0c4a6e;
+        margin-bottom: 0.5rem;
+      }
+      
+      p {
+        color: #075985;
+        line-height: 1.8;
+        white-space: pre-wrap;
+        margin: 0;
+      }
+    }
+    
+    .analysis-recommendations {
+      background-color: #fef9c3; // Светло-желтый фон для рекомендаций
+      border-left: 4px solid #eab308;
+      padding: 1rem;
+      border-radius: 6px;
+      
+      h5 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #854d0e;
+        margin-bottom: 0.5rem;
+      }
+      
+      ul {
+        color: #713f12;
+        line-height: 1.6;
+        margin: 0;
+        padding-left: 1.5rem;
+        
+        li {
+          margin-bottom: 0.5rem;
+        }
+      }
+    }
+    
+    // Стили для критических моментов (если будут выделены отдельно)
+    .critical-points {
+      background-color: #fee2e2; // Светло-красный фон для критических моментов
+      border-left: 4px solid #dc2626;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+      
+      h5 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #991b1b;
+        margin-bottom: 0.5rem;
+      }
+      
+      p, ul {
+        color: #7f1d1d;
+        line-height: 1.8;
+      }
+    }
+  }
+}
+

@@ -1,0 +1,61 @@
+.channels-chart {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+  &.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    
+    p {
+      color: #6b7280;
+      font-size: 16px;
+      text-align: center;
+    }
+  }
+  
+  .chart-header {
+    margin-bottom: 24px;
+    
+    h3 {
+      margin: 0 0 8px 0;
+      font-size: 20px;
+      color: #1f2937;
+    }
+    
+    .chart-description {
+      margin: 0;
+      font-size: 14px;
+      color: #6b7280;
+    }
+  }
+  
+  .chart-container {
+    margin-bottom: 32px;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    h4 {
+      margin: 0 0 16px 0;
+      font-size: 16px;
+      color: #374151;
+      font-weight: 600;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .channels-chart {
+    padding: 16px;
+    
+    .chart-container {
+      margin-bottom: 24px;
+    }
+  }
+}
+

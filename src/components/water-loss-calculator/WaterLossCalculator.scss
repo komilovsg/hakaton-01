@@ -1,0 +1,313 @@
+.water-loss-calculator {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 60px;
+  
+  // Предотвращаем переносы в единицах измерения
+  :global(.ant-input-number-group-addon) {
+    white-space: nowrap !important;
+    min-width: auto !important;
+  }
+  
+  :global(.ant-input-number) {
+    width: 100%;
+  }
+  
+  .calculator-header {
+    margin-bottom: 32px;
+    text-align: center;
+    
+    h2 {
+      margin: 0 0 12px 0;
+      font-size: 28px;
+      color: #1f2937;
+    }
+    
+    .calculator-description {
+      margin: 0;
+      font-size: 16px;
+      color: #6b7280;
+    }
+  }
+  
+  .calculator-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    
+    @media (min-width: 1024px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  .calculator-form {
+    h3 {
+      margin: 0 0 20px 0;
+      font-size: 20px;
+      color: #1f2937;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+      
+      @media (min-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    .form-group {
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+        
+        .required {
+          color: #dc2626;
+        }
+      }
+      
+      input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: border-color 0.2s;
+        
+        &:focus {
+          outline: none;
+          border-color: #0284c7;
+          box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+        }
+      }
+      
+      small {
+        display: block;
+        margin-top: 4px;
+        font-size: 12px;
+        color: #6b7280;
+      }
+    }
+    
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      
+      button {
+        flex: 1;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s;
+        
+        &.calculate-btn {
+          background: #0284c7;
+          color: white;
+          
+          &:hover {
+            background: #0369a1;
+          }
+        }
+        
+        &.reset-btn {
+          background: #f3f4f6;
+          color: #374151;
+          
+          &:hover {
+            background: #e5e7eb;
+          }
+        }
+      }
+    }
+  }
+  
+  .calculator-result {
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 24px;
+    
+    h3 {
+      margin: 0 0 20px 0;
+      font-size: 20px;
+      color: #1f2937;
+    }
+    
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+      
+      .result-card {
+        background: white;
+        padding: 16px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        
+        .result-label {
+          font-size: 12px;
+          color: #6b7280;
+          margin-bottom: 8px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+        
+        .result-value {
+          font-size: 24px;
+          font-weight: 700;
+          color: #1f2937;
+          margin-bottom: 4px;
+          
+          &.loss {
+            color: #dc2626;
+          }
+          
+          &.efficiency {
+            color: #10b981;
+          }
+        }
+        
+        .result-percentage {
+          font-size: 14px;
+          color: #6b7280;
+        }
+        
+        .status-badge {
+          padding: 6px 12px;
+          border-radius: 6px;
+          font-size: 14px;
+          font-weight: 600;
+          display: inline-block;
+          
+          &.status-critical {
+            background: #fee2e2;
+            color: #dc2626;
+          }
+          
+          &.status-high-loss {
+            background: #fef3c7;
+            color: #d97706;
+          }
+          
+          &.status-normal {
+            background: #d1fae5;
+            color: #059669;
+          }
+        }
+      }
+    }
+    
+    .evaporation-info {
+      background: #dbeafe;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border-left: 4px solid #0284c7;
+      
+      h4 {
+        margin: 0 0 12px 0;
+        font-size: 16px;
+        color: #1e40af;
+      }
+      
+      p {
+        margin: 0 0 8px 0;
+        color: #1e40af;
+        
+        strong {
+          color: #1e3a8a;
+        }
+      }
+      
+      small {
+        font-size: 12px;
+        color: #3b82f6;
+      }
+    }
+    
+    .formulas-info {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+      
+      h4 {
+        margin: 0 0 16px 0;
+        font-size: 18px;
+        color: #1f2937;
+      }
+      
+      .formula-item {
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #e5e7eb;
+        
+        &:last-child {
+          margin-bottom: 0;
+          padding-bottom: 0;
+          border-bottom: none;
+        }
+        
+        strong {
+          display: block;
+          margin-bottom: 8px;
+          color: #374151;
+          font-size: 14px;
+        }
+        
+        code {
+          display: block;
+          background: #f3f4f6;
+          padding: 12px;
+          border-radius: 6px;
+          font-size: 14px;
+          color: #1f2937;
+          margin-bottom: 8px;
+          font-family: 'Courier New', monospace;
+          
+          sub {
+            font-size: 10px;
+          }
+        }
+        
+        p {
+          margin: 0;
+          font-size: 13px;
+          color: #6b7280;
+          font-style: italic;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .water-loss-calculator {
+    padding: 24px;
+    
+    .calculator-content {
+      grid-template-columns: 1fr;
+    }
+    
+    .calculator-form {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}
+
