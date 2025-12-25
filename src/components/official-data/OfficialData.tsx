@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Spin, Alert, message } from 'antd';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -13,12 +13,25 @@ import {
   table16Part2Months,
   averageA,
   calculateHydrologyTable,
+  type Table16Part1Row,
+  type Table16Part2Row,
 } from './data';
 import { analyzeTable14, type DeepSeekAnalysis } from '../../services/deepseekApi';
 import './OfficialData.scss';
 
 export default function OfficialData() {
   const { t, i18n } = useTranslation();
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Определяем, мобильное ли устройство
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Water loss / evaporation calculator: S = 10 * A * L * (Qx)^0.5, Qx = sqrt(Q / 1000)
   const [surfaceAreaHa, setSurfaceAreaHa] = useState<number>(0);
@@ -44,7 +57,7 @@ export default function OfficialData() {
 
   // Рассчитываем данные для таблицы 14
   const calculatedTableData = useMemo(() => {
-    return calculateHydrologyTable(table16Part2Data);
+    return calculateHydrologyTable(table16Part1Data, table16Part2Data);
   }, []);
 
   // Функция для анализа таблицы 14
@@ -74,13 +87,44 @@ export default function OfficialData() {
           const decadeKey = `${month}_${idx === 0 ? 'i' : idx === 1 ? 'ii' : 'iii'}`;
           const data = calculatedTableData[decadeKey];
           if (data) {
-            analysisData.row1.push(data.row1);
-            analysisData.row2.push(data.row2);
-            analysisData.row3.push(data.row3);
-            analysisData.row4.push(data.row4);
-            analysisData.row5_Qg.push(data.row5_Qg);
-            analysisData.row6_Wg.push(data.row6_Wg);
-            analysisData.row7_Wtotal.push(data.row7_Wtotal);
+            // Фильтруем null значения - для анализа нужны только валидные данные
+            if (data.row1.Qvx !== null && data.row1.S !== null && data.row1.Qfx !== null) {
+              analysisData.row1.push({
+                Qvx: data.row1.Qvx,
+                S: data.row1.S,
+                Qfx: data.row1.Qfx,
+              });
+            }
+            if (data.row2.Qvx !== null && data.row2.S !== null && data.row2.Qfx !== null) {
+              analysisData.row2.push({
+                Qvx: data.row2.Qvx,
+                S: data.row2.S,
+                Qfx: data.row2.Qfx,
+              });
+            }
+            if (data.row3.Qvx !== null && data.row3.S !== null && data.row3.Qfx !== null) {
+              analysisData.row3.push({
+                Qvx: data.row3.Qvx,
+                S: data.row3.S,
+                Qfx: data.row3.Qfx,
+              });
+            }
+            if (data.row4.Qvx !== null && data.row4.S !== null && data.row4.Qfx !== null) {
+              analysisData.row4.push({
+                Qvx: data.row4.Qvx,
+                S: data.row4.S,
+                Qfx: data.row4.Qfx,
+              });
+            }
+            if (data.row5_Qg !== null) {
+              analysisData.row5_Qg.push(data.row5_Qg);
+            }
+            if (data.row6_Wg !== null) {
+              analysisData.row6_Wg.push(data.row6_Wg);
+            }
+            if (data.row7_Wtotal !== null) {
+              analysisData.row7_Wtotal.push(data.row7_Wtotal);
+            }
           }
         }
       });
@@ -230,10 +274,16 @@ export default function OfficialData() {
                 const colors = ['#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#00ff00'];
                 
                 return (
-                  <ResponsiveContainer width="100%" height={400}>
+                  <ResponsiveContainer width="100%" height={isMobile ? 500 : 400}>
                     <LineChart data={chartData}>
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} />
+                      <XAxis 
+                        dataKey="name" 
+                        angle={isMobile ? -90 : -45} 
+                        textAnchor={isMobile ? "middle" : "end"} 
+                        height={isMobile ? 0 : 80}
+                        tick={!isMobile}
+                      />
                       <YAxis />
                       <Tooltip />
                       <Legend />
@@ -342,10 +392,16 @@ export default function OfficialData() {
                 const colors = ['#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#00ff00'];
                 
                 return (
-                  <ResponsiveContainer width="100%" height={400}>
+                  <ResponsiveContainer width="100%" height={isMobile ? 500 : 400}>
                     <LineChart data={chartData}>
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} />
+                      <XAxis 
+                        dataKey="name" 
+                        angle={isMobile ? -90 : -45} 
+                        textAnchor={isMobile ? "middle" : "end"} 
+                        height={isMobile ? 0 : 80}
+                        tick={!isMobile}
+                      />
                       <YAxis />
                       <Tooltip />
                       <Legend />
@@ -397,6 +453,9 @@ export default function OfficialData() {
                 <th rowSpan={2}>Номгӯи каналҳо, қитъаҳо ва пикетҳо</th>
                 <th rowSpan={2}>Дарозии қитъаи канал, км</th>
                 <th rowSpan={2}>Формулаҳо барои ҳисобарорӣ ва воҳиди ченак</th>
+                <th colSpan={3}>Апрел</th>
+                <th colSpan={3}>Май</th>
+                <th colSpan={3}>Июн</th>
                 <th colSpan={3}>Июл</th>
                 <th colSpan={3}>Август</th>
                 <th colSpan={3}>Сентиябр</th>
@@ -414,51 +473,78 @@ export default function OfficialData() {
                 <th>III</th>
                 <th>I</th>
                 <th>II</th>
+                <th>III</th>
+                <th>I</th>
+                <th>II</th>
+                <th>III</th>
+                <th>I</th>
+                <th>II</th>
+                <th>III</th>
+                <th>I</th>
+                <th>II</th>
               </tr>
             </thead>
             <tbody>
               {/* Первая строка - автоматически заполняется из таблицы 16, разбита на 3 строки по формулам */}
               {(() => {
-                // Берем данные из таблицы 16, строка "1-4К, АИО - 4" (последняя строка)
-                const sourceRow = table16Part2Data.find(row => row.number === 5);
-                if (!sourceRow) return null;
+                // Берем данные из таблицы 16 для строки 1
+                // Нужны данные из строки "1-МК" (number === 1) и "1-4К, АИО - 4" (number === 5)
+                // Для Апрель-Июнь используем Part1, для Июль-Октябрь - Part2
+                const row1_MK_part1 = table16Part1Data.find(row => row.number === 1);
+                const row1_MK_part2 = table16Part2Data.find(row => row.number === 1);
+                const row1_4K_part1 = table16Part1Data.find(row => row.number === 5);
+                const row1_4K_part2 = table16Part2Data.find(row => row.number === 5);
+                if (!row1_MK_part1 || !row1_MK_part2 || !row1_4K_part1 || !row1_4K_part2) return null;
                 
                 // Месяцы для отображения
-                const displayMonths: Array<{ key: 'jul' | 'aug' | 'sep' | 'oct'; label: string }> = [
-                  { key: 'jul', label: 'Июл' },
-                  { key: 'aug', label: 'Август' },
-                  { key: 'sep', label: 'Сентиябр' },
-                  { key: 'oct', label: 'Октябр' },
+                const displayMonths: Array<{ key: 'apr' | 'may' | 'jun' | 'jul' | 'aug' | 'sep' | 'oct'; label: string; row1_MK: Table16Part1Row | Table16Part2Row; row1_4K: Table16Part1Row | Table16Part2Row }> = [
+                  { key: 'apr', label: 'Апрел', row1_MK: row1_MK_part1, row1_4K: row1_4K_part1 },
+                  { key: 'may', label: 'Май', row1_MK: row1_MK_part1, row1_4K: row1_4K_part1 },
+                  { key: 'jun', label: 'Июн', row1_MK: row1_MK_part1, row1_4K: row1_4K_part1 },
+                  { key: 'jul', label: 'Июл', row1_MK: row1_MK_part2, row1_4K: row1_4K_part2 },
+                  { key: 'aug', label: 'Август', row1_MK: row1_MK_part2, row1_4K: row1_4K_part2 },
+                  { key: 'sep', label: 'Сентиябр', row1_MK: row1_MK_part2, row1_4K: row1_4K_part2 },
+                  { key: 'oct', label: 'Октябр', row1_MK: row1_MK_part2, row1_4K: row1_4K_part2 },
                 ];
                 
                 const formulas = [
-                  <>Q<sub>х</sub> = Q<sub>fx</sub> 1-4К</>,
+                  <>Q<sub>х</sub> = Q(1-МК) + Q(1-4К)</>,
                   <>S = 10 × A × L × Q<sub>х</sub><sup>0.5</sup>, л/с</>,
                   <>Q<sub>fx</sub> = Q<sub>х</sub> + S</>,
                 ];
                 
-                // Для первой формулы берем данные из таблицы 16
-                const firstFormulaValues = displayMonths.flatMap(({ key }) => {
-                  const values = sourceRow.decades[key];
-                  return values.map((value, idx) => {
-                    if (key === 'oct' && idx === 2) return null;
-                    return value !== null ? value : null;
-                  }).filter(v => v !== null);
+                // Для первой формулы берем сумму Q(1-МК) + Q(1-4К) из таблицы 16
+                // ВАЖНО: сохраняем порядок и структуру для правильного отображения в колонках
+                const firstFormulaValues: (number | null)[] = [];
+                displayMonths.forEach(({ key, row1_MK, row1_4K }) => {
+                  const values_MK = row1_MK.decades[key];
+                  const values_4K = row1_4K.decades[key];
+                  const maxDecades = key === 'oct' ? 2 : 3;
+                  for (let idx = 0; idx < maxDecades; idx++) {
+                    const value_MK = values_MK[idx];
+                    const value_4K = values_4K[idx];
+                    if (value_MK !== null && value_MK !== undefined && value_4K !== null && value_4K !== undefined) {
+                      firstFormulaValues.push(value_MK + value_4K);
+                    } else {
+                      firstFormulaValues.push(null);
+                    }
+                  }
                 });
+                
 
                 // Длина канала для первой строки
                 const row1Length = 3.030; // км
 
                 // Рассчитываем S для второй формулы
                 const secondFormulaValues = firstFormulaValues.map((qx) => {
-                  if (!qx) return 0;
+                  if (qx === null || qx === undefined || isNaN(qx) || qx <= 0) return null;
                   return calculateS(qx, row1Length);
                 });
 
                 // Рассчитываем Qfx для третьей формулы: Qfx = Qх + S
                 const thirdFormulaValues = firstFormulaValues.map((qx, idx) => {
                   const s = secondFormulaValues[idx];
-                  if (!qx || !s) return 0;
+                  if (qx === null || qx === undefined || isNaN(qx) || s === null || s === undefined || isNaN(s)) return null;
                   return qx + s;
                 });
                 
@@ -476,12 +562,13 @@ export default function OfficialData() {
                       // Первая формула - показываем данные из таблицы 16 (readOnly)
                       firstFormulaValues.map((value, idx) => {
                         const cellKey = `row1-qx-${idx}`;
+                        const displayValue = value !== null && value !== undefined && !isNaN(value) ? value.toFixed(1) : '';
                         return (
                           <td key={cellKey} className="editable-cell">
                             <input
                               type="number"
                               step="0.1"
-                              value={value !== null ? value.toFixed(1) : ''}
+                              value={displayValue}
                               readOnly
                               style={{ backgroundColor: '#f0f0f0' }}
                               placeholder="—"
@@ -491,32 +578,38 @@ export default function OfficialData() {
                       })
                     ) : formulaIdx === 1 ? (
                       // Вторая формула - автоматический расчет S
-                      secondFormulaValues.map((calculatedS, idx) => (
-                        <td key={`row1-s-${idx}`} className="editable-cell">
-                          <input
-                            type="number"
-                            step="0.1"
-                            value={calculatedS > 0 ? calculatedS.toFixed(1) : ''}
-                            readOnly
-                            style={{ backgroundColor: '#f0f0f0' }}
-                            placeholder="—"
-                          />
-                        </td>
-                      ))
+                      secondFormulaValues.map((calculatedS, idx) => {
+                        const displayValue = calculatedS !== null && calculatedS !== undefined && !isNaN(calculatedS) && calculatedS > 0 ? calculatedS.toFixed(1) : '';
+                        return (
+                          <td key={`row1-s-${idx}`} className="editable-cell">
+                            <input
+                              type="number"
+                              step="0.1"
+                              value={displayValue}
+                              readOnly
+                              style={{ backgroundColor: '#f0f0f0' }}
+                              placeholder="—"
+                            />
+                          </td>
+                        );
+                      })
                     ) : (
                       // Третья формула - автоматический расчет Qfx = Qх + S
-                      thirdFormulaValues.map((qfx, idx) => (
-                        <td key={`row1-qfx-${idx}`} className="editable-cell">
-                          <input
-                            type="number"
-                            step="0.1"
-                            value={qfx > 0 ? qfx.toFixed(1) : ''}
-                            readOnly
-                            style={{ backgroundColor: '#f0f0f0' }}
-                            placeholder="—"
-                          />
-                        </td>
-                      ))
+                      thirdFormulaValues.map((qfx, idx) => {
+                        const displayValue = qfx !== null && qfx !== undefined && !isNaN(qfx) && qfx > 0 ? qfx.toFixed(1) : '';
+                        return (
+                          <td key={`row1-qfx-${idx}`} className="editable-cell">
+                            <input
+                              type="number"
+                              step="0.1"
+                              value={displayValue}
+                              readOnly
+                              style={{ backgroundColor: '#f0f0f0' }}
+                              placeholder="—"
+                            />
+                          </td>
+                        );
+                      })
                     )}
                   </tr>
                 ));
@@ -526,7 +619,15 @@ export default function OfficialData() {
               {(() => {
                 // Функция для получения ключа декады
                 const getDecadeKey = (month: string, decadeIdx: number): string => {
-                  const monthMap: Record<string, string> = { jul: 'jul', aug: 'aug', sep: 'sep', oct: 'oct' };
+                  const monthMap: Record<string, string> = { 
+                    apr: 'apr', 
+                    may: 'may', 
+                    jun: 'jun', 
+                    jul: 'jul', 
+                    aug: 'aug', 
+                    sep: 'sep', 
+                    oct: 'oct' 
+                  };
                   const decadeMap: Record<number, string> = { 0: 'i', 1: 'ii', 2: 'iii' };
                   return `${monthMap[month]}_${decadeMap[decadeIdx]}`;
                 };
@@ -597,7 +698,7 @@ export default function OfficialData() {
                         </>
                       )}
                       <td className="formula-cell">{formula}</td>
-                      {['jul', 'aug', 'sep', 'oct'].flatMap((month) => {
+                      {['apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct'].flatMap((month) => {
                         const isOct = month === 'oct';
                         return [0, 1, isOct ? null : 2].filter(idx => idx !== null).map((idx) => {
                           const value = getValue(rowData.num, formulaIdx, month, idx);
@@ -633,9 +734,13 @@ export default function OfficialData() {
             <div className="chart-container">
               {(() => {
                 // Подготовка данных для графика из calculatedTableData
-                const months = ['aug', 'sep', 'oct'] as const;
+                const months = ['apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct'] as const;
                 const chartData = months.flatMap((month) => {
                   const monthNames: Record<string, string> = {
+                    apr: 'Апрел',
+                    may: 'Май',
+                    jun: 'Июн',
+                    jul: 'Июл',
                     aug: 'Август',
                     sep: 'Сентиябр',
                     oct: 'Октябр',
@@ -648,21 +753,27 @@ export default function OfficialData() {
                     
                     return {
                       name: `${monthNames[month]} ${idx === 0 ? 'I' : idx === 1 ? 'II' : 'III'}`,
-                      'Qfx строка 1': data.row1.Qfx,
-                      'Qfx строка 2': data.row2.Qfx,
-                      'Qfx строка 3': data.row3.Qfx,
-                      'Qfx строка 4': data.row4.Qfx,
-                      'Qг (строка 5)': data.row5_Qg,
-                      'Wг (строка 6)': data.row6_Wg * 1000, // Умножаем для лучшей видимости
+                      'Qfx строка 1': data.row1.Qfx ?? 0,
+                      'Qfx строка 2': data.row2.Qfx ?? 0,
+                      'Qfx строка 3': data.row3.Qfx ?? 0,
+                      'Qfx строка 4': data.row4.Qfx ?? 0,
+                      'Qг (строка 5)': data.row5_Qg ?? 0,
+                      'Wг (строка 6)': (data.row6_Wg ?? 0) * 1000, // Умножаем для лучшей видимости
                     };
                   }).filter(Boolean);
                 });
                 
                 return (
-                  <ResponsiveContainer width="100%" height={400}>
+                  <ResponsiveContainer width="100%" height={isMobile ? 500 : 400}>
                     <LineChart data={chartData}>
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} />
+                      <XAxis 
+                        dataKey="name" 
+                        angle={isMobile ? -90 : -45} 
+                        textAnchor={isMobile ? "middle" : "end"} 
+                        height={isMobile ? 0 : 80}
+                        tick={!isMobile}
+                      />
                       <YAxis />
                       <Tooltip />
                       <Legend />

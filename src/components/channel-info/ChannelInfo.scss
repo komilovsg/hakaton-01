@@ -172,3 +172,165 @@
   }
 }
 
+// Планшеты (768px - 1024px)
+@media (max-width: 1024px) and (min-width: 769px) {
+  .channel-info {
+    padding: 20px;
+    
+    .channel-header {
+      h2 {
+        font-size: 22px;
+      }
+    }
+    
+    .channel-metrics {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+  }
+}
+
+// Мобильные устройства (до 768px)
+@media (max-width: 768px) {
+  .channel-info {
+    padding: 16px;
+    border-radius: 8px;
+    
+    &.empty {
+      min-height: 150px;
+      
+      p {
+        font-size: 14px;
+      }
+    }
+    
+    .channel-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 20px;
+      
+      h2 {
+        font-size: 20px;
+      }
+      
+      .status-badge {
+        font-size: 12px;
+        padding: 5px 10px;
+      }
+    }
+    
+    .channel-metrics {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+      
+      .metric-card {
+        padding: 12px;
+        
+        .metric-label {
+          font-size: 11px;
+        }
+        
+        .metric-value {
+          font-size: 20px;
+        }
+        
+        .metric-detail {
+          font-size: 11px;
+        }
+      }
+    }
+    
+    .water-flow {
+      padding: 16px;
+      margin-bottom: 20px;
+      
+      h3 {
+        font-size: 16px;
+        margin-bottom: 12px;
+      }
+      
+      .flow-comparison {
+        flex-direction: column;
+        gap: 12px;
+        
+        .flow-item {
+          .flow-label {
+            font-size: 13px;
+          }
+          
+          .flow-value {
+            font-size: 18px;
+          }
+        }
+        
+        .flow-arrow {
+          font-size: 24px;
+          transform: rotate(90deg);
+        }
+      }
+      
+      .flow-detail {
+        margin-top: 12px;
+        padding-top: 12px;
+        
+        p {
+          font-size: 13px;
+        }
+      }
+    }
+    
+    .recommendations {
+      padding: 16px;
+      
+      h3 {
+        font-size: 16px;
+      }
+      
+      ul {
+        padding-left: 18px;
+        
+        li {
+          font-size: 13px;
+          margin: 6px 0;
+        }
+      }
+    }
+  }
+}
+
+// Очень маленькие экраны (до 480px)
+@media (max-width: 480px) {
+  .channel-info {
+    padding: 12px;
+    
+    .channel-header {
+      h2 {
+        font-size: 18px;
+      }
+    }
+    
+    .channel-metrics {
+      grid-template-columns: 1fr;
+      
+      .metric-card {
+        .metric-value {
+          font-size: 18px;
+        }
+      }
+    }
+    
+    .water-flow {
+      padding: 12px;
+      
+      .flow-comparison {
+        .flow-item {
+          .flow-value {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}
+

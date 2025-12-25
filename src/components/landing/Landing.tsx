@@ -665,10 +665,6 @@ export default function Landing() {
   const [tableChannels, setTableChannels] = useState<ChannelData[]>([]);
   const [editingChannel, setEditingChannel] = useState<ChannelData | null>(null);
   const [showAddToTablePrompt, setShowAddToTablePrompt] = useState(false);
-  const problemItemsRaw = t('problem.items', { returnObjects: true });
-  const solutionItemsRaw = t('solution.items', { returnObjects: true });
-  const problemItems = Array.isArray(problemItemsRaw) ? (problemItemsRaw as string[]) : [];
-  const solutionItems = Array.isArray(solutionItemsRaw) ? (solutionItemsRaw as string[]) : [];
 
   // Обработка выбора канала на карте
   const handleChannelSelect = (channel: ChannelData | null) => {
@@ -739,35 +735,14 @@ export default function Landing() {
           <p className="landing-subtitle">
             {t('header.subtitle')}
           </p>
+          <p className="landing-tagline">
+            {t('header.tagline')}
+          </p>
         </div>
       </header>
 
       <main className="landing-main">
         <div className="container">
-          <section className="case-section">
-            <h2>{t('case.title')}</h2>
-            <p>{t('case.description')}</p>
-          </section>
-
-          <section className="problem-section">
-            <h2>{t('problem.title')}</h2>
-            <ul className="problem-list">
-              {problemItems.map((item: string, index: number) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
-          </section>
-
-          <section className="solution-section">
-            <h2>{t('solution.title')}</h2>
-            <p>{t('solution.description')}</p>
-            <ul className="solution-list">
-              {solutionItems.map((item: string, index: number) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
-          </section>
-
           <section className="map-section">
             <h2>{t('map.title')}</h2>
             <p className="section-description">

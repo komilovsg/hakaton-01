@@ -303,9 +303,9 @@ export const averageA = 2.08;
  * Интерфейсы для результатов расчета таблицы 14
  */
 export interface CalculationResult {
-  Qvx: number; // Входящий расход (л/с)
-  S: number;   // Потери (л/с)
-  Qfx: number; // Исходящий расход (л/с)
+  Qvx: number | null; // Входящий расход (л/с)
+  S: number | null;   // Потери (л/с)
+  Qfx: number | null; // Исходящий расход (л/с)
 }
 
 export interface CalculatedTableResults {
@@ -314,9 +314,9 @@ export interface CalculatedTableResults {
     row2: CalculationResult;
     row3: CalculationResult;
     row4: CalculationResult;
-    row5_Qg: number; // Общий расход Qг (л/с)
-    row6_Wg: number; // Объем Wг (млн. м³)
-    row7_Wtotal: number; // Общий объем W (млн. м³)
+    row5_Qg: number | null; // Общий расход Qг (л/с)
+    row6_Wg: number | null; // Объем Wг (млн. м³)
+    row7_Wtotal: number | null; // Общий объем W (млн. м³)
   };
 }
 
@@ -331,10 +331,14 @@ export function calculateLoss(Qvx: number, L: number, A: number = averageA): num
 
 /**
  * Основная функция расчета таблицы расхода воды
- * @param inputData - данные из table16Part2Data
+ * @param inputDataPart1 - данные из table16Part1Data (Апрель-Июнь)
+ * @param inputDataPart2 - данные из table16Part2Data (Июль-Октябрь)
  * @returns объект с рассчитанными данными для всех декад
  */
-export function calculateHydrologyTable(inputData: Table16Part2Row[]): CalculatedTableResults {
+export function calculateHydrologyTable(
+  inputDataPart1: Table16Part1Row[],
+  inputDataPart2: Table16Part2Row[]
+): CalculatedTableResults {
   const results: CalculatedTableResults = {};
   
   // Константы
@@ -350,71 +354,101 @@ export function calculateHydrologyTable(inputData: Table16Part2Row[]): Calculate
     row4: 0.744,
   };
   
-  // Получаем данные из таблицы 16
-  const row1_4K = inputData.find(row => row.number === 5); // 1-4К, АИО - 4
-  const row1_2K = inputData.find(row => row.number === 3); // 1-2К, АИО - 2
-  const row1_3K = inputData.find(row => row.number === 4); // 1-3К, АИО - 3
+  // Получаем данные из таблицы 16 (Part1 для Апрель-Июнь, Part2 для Июль-Октябрь)
+  // НОВЫЙ ИСТОЧНИК ДАННЫХ ДЛЯ Q(1-МК)
+  const row1_MK_part1 = inputDataPart1.find(row => row.number === 1); // Канали байни хочагӣ 1-МК дар ПК91+50
+  const row1_MK_part2 = inputDataPart2.find(row => row.number === 1); // Канали байни хочагӣ 1-МК дар ПК91+50
   
-  if (!row1_4K || !row1_2K || !row1_3K) {
+  const row1_4K_part1 = inputDataPart1.find(row => row.number === 5); // 1-4К, АИО - 4
+  const row1_2K_part1 = inputDataPart1.find(row => row.number === 3); // 1-2К, АИО - 2
+  const row1_3K_part1 = inputDataPart1.find(row => row.number === 4); // 1-3К, АИО - 3
+  
+  const row1_4K_part2 = inputDataPart2.find(row => row.number === 5); // 1-4К, АИО - 4
+  const row1_2K_part2 = inputDataPart2.find(row => row.number === 3); // 1-2К, АИО - 2
+  const row1_3K_part2 = inputDataPart2.find(row => row.number === 4); // 1-3К, АИО - 3
+  
+  if (!row1_MK_part1 || !row1_MK_part2 ||
+      !row1_4K_part1 || !row1_2K_part1 || !row1_3K_part1 || 
+      !row1_4K_part2 || !row1_2K_part2 || !row1_3K_part2) {
     return results;
   }
   
-  // Месяцы для расчета: Август, Сентябрь, Октябрь
-  // По скриншоту: для Июля в строках 2-7 все ячейки пустые (прочерки)
-  // Расчеты для строк 2-7 выполняются только для Августа, Сентября, Октября
-  const monthsToProcess: Array<'aug' | 'sep' | 'oct'> = ['aug', 'sep', 'oct'];
+  // Месяцы для расчета: Апрель, Май, Июнь, Июль, Август, Сентябрь, Октябрь
+  const monthsToProcess: Array<'apr' | 'may' | 'jun' | 'jul' | 'aug' | 'sep' | 'oct'> = 
+    ['apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct'];
   
   // Обрабатываем каждую декаду
   monthsToProcess.forEach((month) => {
     // Для каждого месяца проверяем доступные декады
     const maxDecades = month === 'oct' ? 2 : 3; // Октябрь имеет только 2 декады
     
+    // Определяем, из какой части таблицы брать данные
+    const isPart1 = month === 'apr' || month === 'may' || month === 'jun';
+    const row1_MK = isPart1 ? row1_MK_part1 : row1_MK_part2;
+    const row1_4K = isPart1 ? row1_4K_part1 : row1_4K_part2;
+    const row1_2K = isPart1 ? row1_2K_part1 : row1_2K_part2;
+    const row1_3K = isPart1 ? row1_3K_part1 : row1_3K_part2;
+    
     for (let decadeIdx = 0; decadeIdx < maxDecades; decadeIdx++) {
       const decadeKey = `${month}_${decadeIdx === 0 ? 'i' : decadeIdx === 1 ? 'ii' : 'iii'}`;
       
       // Получаем значения Q из таблицы 16 для текущей декады
+      const Q_1_MK = row1_MK.decades[month][decadeIdx];
       const Q_1_4K = row1_4K.decades[month][decadeIdx];
       const Q_1_2K = row1_2K.decades[month][decadeIdx];
       const Q_1_3K = row1_3K.decades[month][decadeIdx];
       
-      // Пропускаем только если все три значения null
-      if (Q_1_4K === null && Q_1_2K === null && Q_1_3K === null) {
+      // Пропускаем только если все значения null
+      if (Q_1_MK === null && Q_1_4K === null && Q_1_2K === null && Q_1_3K === null) {
         continue; // Пропускаем если данных нет
       }
       
-      // Для строки 1 обязательно нужен Q_1_4K
-      if (Q_1_4K === null) {
-        continue; // Не можем рассчитать строку 1 без Q_1_4K
+      // Для строки 1 обязательно нужны Q_1_MK и Q_1_4K
+      if (Q_1_MK === null || Q_1_4K === null) {
+        continue; // Не можем рассчитать строку 1 без Q_1_MK и Q_1_4K
       }
       
       // Для строк 2-4 нужны Q_1_2K и Q_1_3K
-      // Если они null, используем 0 (но это может быть неправильно)
-      // По скриншоту: если данных нет, ячейки должны быть пустыми
+      // Для Июля строки 2-7 остаются пустыми (по спецификации)
+      // Для остальных месяцев проверяем наличие данных
+      if (month === 'jul') {
+        // Для Июля рассчитываем только строку 1, остальные строки остаются пустыми
+        // Строка 1: Qвх = Q(1-МК) + Q(1-4К)
+        const row1_Qvx = Q_1_MK + Q_1_4K;
+        const row1_S = calculateLoss(row1_Qvx, lengths.row1, A);
+        const row1_Qfx = row1_Qvx + row1_S;
+        
+        results[decadeKey] = {
+          row1: {
+            Qvx: row1_Qvx,
+            S: row1_S,
+            Qfx: row1_Qfx,
+          },
+          // Для строк 2-7 в Июле значения null (пустые ячейки)
+          row2: { Qvx: null, S: null, Qfx: null },
+          row3: { Qvx: null, S: null, Qfx: null },
+          row4: { Qvx: null, S: null, Qfx: null },
+          row5_Qg: null,
+          row6_Wg: null,
+          row7_Wtotal: null,
+        };
+        continue;
+      }
+      
+      // Для остальных месяцев проверяем наличие данных для строк 2-4
       if (Q_1_2K === null || Q_1_3K === null) {
         continue; // Пропускаем если нет данных для строк 2-4
       }
       
-      // Строка 1: Qвх = Q(1-4К)
-      const row1_Qvx = Q_1_4K;
+      // Строка 1: Qвх = Q(1-МК) + Q(1-4К)
+      const row1_Qvx = Q_1_MK + Q_1_4K;
       const row1_S = calculateLoss(row1_Qvx, lengths.row1, A);
       const row1_Qfx = row1_Qvx + row1_S;
       
-      // Строка 2: Qх = Qfx 1-1MK + Qfx 1-3K
-      // Qfx 1-1MK = Qfx строки 1, Qfx 1-3K нужно рассчитать из Q(1-3К)
-      // Но по формуле из скриншота: Qх = Qfx 1-1MK + Qfx 1-3K
-      // Где Qfx 1-1MK = Qfx строки 1, а Qfx 1-3K нужно найти
-      // По логике: Qfx 1-3K = Q(1-3К) + S(1-3К), но у нас нет длины для 1-3К
-      // Альтернативно: Qх = Qfx строки 1 + Q(1-2К) + Q(1-3К) - но это не соответствует формуле
-      // По ТЗ: Qвх, 2 = Qfx строки 1 + Q(1-2К)
-      // Но по формуле в таблице: Qх = Qfx 1-1MK + Qfx 1-3K
-      // Используем логику из ТЗ: Qвх = Qfx строки 1 + Q(1-2К)
-      // Но нужно также учесть Q(1-3К) для правильного расчета
+      // Строка 2: Qх = Qfx строки 1 + Q(1-2К) + Q(1-3К)
+      const Q_1_2K_value = Q_1_2K !== null ? Q_1_2K : 0;
       const Q_1_3K_value = Q_1_3K !== null ? Q_1_3K : 0;
-      // Для строки 2: Qх = Qfx строки 1 + Q(1-2К) (по ТЗ)
-      // Но по формуле: Qх = Qfx 1-1MK + Qfx 1-3K, где Qfx 1-1MK = Qfx строки 1
-      // Qfx 1-3K нужно рассчитать, но у нас нет данных о длине для 1-3К
-      // Используем упрощенную логику: Qх = Qfx строки 1 + Q(1-2К) + Q(1-3К)
-      const row2_Qvx = row1_Qfx + (Q_1_2K !== null ? Q_1_2K : 0) + Q_1_3K_value;
+      const row2_Qvx = row1_Qfx + Q_1_2K_value + Q_1_3K_value;
       const row2_S = calculateLoss(row2_Qvx, lengths.row2, A);
       const row2_Qfx = row2_Qvx + row2_S;
       

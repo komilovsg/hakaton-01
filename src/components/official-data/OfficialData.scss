@@ -114,10 +114,23 @@
 // Контейнер для графиков
 .chart-container {
   margin-top: 2rem;
+  margin-bottom: 2rem;
   padding: 1.5rem;
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+  
+  // Скрываем подписи месяцев на оси X для мобильных устройств
+  @media (max-width: 768px) {
+    margin-bottom: 80px; // Большой отступ снизу на мобильных
+    :global(.recharts-xAxis) {
+      :global(.recharts-cartesian-axis-tick) {
+        display: none !important;
+      }
+    }
+  }
 }
 
 .table16-section {
@@ -853,30 +866,325 @@
   }
 }
 
-@media (max-width: 768px) {
+// Планшеты (768px - 1024px)
+@media (max-width: 1024px) and (min-width: 769px) {
   .official-data {
-    padding: 24px;
+    padding: 32px 24px;
     
     h2 {
-      font-size: 24px;
+      font-size: 28px;
+    }
+    
+    .table14-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      
+      &::-webkit-scrollbar {
+        height: 8px;
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+    }
+    
+    .table14 {
+      min-width: 1200px;
+      
+      thead th,
+      tbody td {
+        padding: 8px 6px;
+        font-size: 11px;
+      }
+      
+      thead th {
+        &:nth-child(2) {
+          min-width: 180px;
+        }
+        
+        &:nth-child(4) {
+          min-width: 220px;
+        }
+      }
+    }
+    
+    .table-wrapper-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      
+      .table-actions {
+        width: 100%;
+        display: flex;
+        gap: 8px;
+        
+        button {
+          flex: 1;
+        }
+      }
+    }
+  }
+}
+
+// Мобильные устройства (до 768px)
+@media (max-width: 768px) {
+  .official-data {
+    padding: 16px;
+    margin-bottom: 80px; // Увеличен отступ снизу для мобильных, чтобы не накладывался на калькулятор
+    position: relative;
+    
+    h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
     }
     
     .data-section,
     .formulas-section,
     .sources-section {
+      margin-bottom: 24px;
+      
       h3 {
-        font-size: 20px;
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+      
+      p {
+        font-size: 14px;
+        line-height: 1.6;
+      }
+    }
+    
+    .data-table-wrapper {
+      margin: 16px 0;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      
+      .data-table {
+        min-width: 600px;
+        
+        thead th,
+        tbody td {
+          padding: 8px 6px;
+          font-size: 12px;
+        }
+      }
+    }
+    
+    .table-wrapper-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+      
+      h3 {
+        font-size: 18px;
+      }
+      
+      .table-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        
+        button {
+          width: 100%;
+          font-size: 14px;
+          padding: 10px 16px;
+        }
+      }
+    }
+    
+    .table14-section {
+      margin-bottom: 24px;
+      
+      h3 {
+        font-size: 18px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+      }
+      
+      p {
+        font-size: 13px;
+        margin-bottom: 12px;
+      }
+      
+      .table14-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 6px;
+        
+        &::-webkit-scrollbar {
+          height: 6px;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+          background: #94a3b8;
+          border-radius: 3px;
+        }
+      }
+      
+      .table14 {
+        min-width: 1000px;
+        
+        thead {
+          th {
+            padding: 8px 4px;
+            font-size: 10px;
+            white-space: nowrap;
+            
+            &:first-child {
+              min-width: 40px;
+            }
+            
+            &:nth-child(2) {
+              min-width: 150px;
+              font-size: 9px;
+            }
+            
+            &:nth-child(3) {
+              min-width: 80px;
+            }
+            
+            &:nth-child(4) {
+              min-width: 180px;
+              font-size: 9px;
+            }
+            
+            &:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)) {
+              min-width: 70px;
+              width: 70px;
+              max-width: 70px;
+            }
+          }
+        }
+        
+        tbody {
+          tr {
+            td {
+              padding: 6px 4px;
+              font-size: 10px;
+              
+              &.name-cell {
+                font-size: 9px;
+                padding-left: 8px;
+              }
+              
+              &.formula-cell {
+                font-size: 9px;
+                padding: 6px 4px;
+              }
+              
+              input {
+                font-size: 10px;
+                padding: 4px 6px;
+                width: 100%;
+                min-width: 60px;
+              }
+              
+              &:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)) {
+                min-width: 70px;
+                width: 70px;
+                max-width: 70px;
+              }
+            }
+          }
+        }
       }
     }
     
     .formula-block {
-      padding: 16px;
+      padding: 12px;
+      margin-bottom: 16px;
       
       .formula {
-        padding: 16px;
+        padding: 12px;
         
         code {
-          font-size: 12px;
+          font-size: 11px;
+          line-height: 1.4;
+        }
+      }
+    }
+    
+    .chart-container {
+      margin-top: 16px;
+      margin-bottom: 80px !important; // Большой отступ снизу, чтобы не накладывался на калькулятор
+      // height: 500px !important; // Увеличена высота для мобильных устройств
+      position: relative;
+      z-index: 1;
+      
+      // Скрываем подписи месяцев на оси X для мобильных
+      :global(.recharts-xAxis) {
+        :global(.recharts-label) {
+          display: none !important;
+        }
+      }
+    }
+  }
+}
+
+// Очень маленькие экраны (до 480px)
+@media (max-width: 480px) {
+  .official-data {
+    padding: 12px;
+    margin-bottom: 80px; // Увеличен отступ снизу для очень маленьких экранов
+    
+    h2 {
+      font-size: 20px;
+    }
+    
+    .table14 {
+      min-width: 900px;
+      
+      thead th,
+      tbody td {
+        padding: 4px 2px;
+        font-size: 9px;
+      }
+      
+      thead th {
+        &:nth-child(2) {
+          min-width: 120px;
+        }
+        
+        &:nth-child(4) {
+          min-width: 150px;
+        }
+        
+        &:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)) {
+          min-width: 60px;
+          width: 60px;
+          max-width: 60px;
+        }
+      }
+      
+      tbody td {
+        input {
+          font-size: 9px;
+          padding: 3px 4px;
+          min-width: 50px;
+        }
+        
+        &:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)) {
+          min-width: 60px;
+          width: 60px;
+          max-width: 60px;
+        }
+      }
+    }
+    
+    .chart-container {
+      margin-bottom: 80px !important; // Большой отступ снизу, чтобы не накладывался на калькулятор
+      height: 450px !important; // Увеличена высота для очень маленьких экранов
+      position: relative;
+      z-index: 1;
+      
+      // Скрываем подписи месяцев на оси X для мобильных
+      :global(.recharts-xAxis) {
+        :global(.recharts-label) {
+          display: none !important;
         }
       }
     }

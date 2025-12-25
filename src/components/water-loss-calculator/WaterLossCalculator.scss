@@ -4,6 +4,8 @@
   padding: 40px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 60px;
+  position: relative;
+  z-index: 2; // Выше графиков, чтобы не перекрывался
   
   // Предотвращаем переносы в единицах измерения
   :global(.ant-input-number-group-addon) {
@@ -39,6 +41,10 @@
     
     @media (min-width: 1024px) {
       grid-template-columns: 1fr 1fr;
+    }
+    
+    @media (max-width: 768px) {
+      gap: 24px;
     }
   }
   
@@ -295,17 +301,128 @@
   }
 }
 
+// Планшеты (768px - 1024px)
+@media (max-width: 1024px) and (min-width: 769px) {
+  .water-loss-calculator {
+    padding: 32px 24px;
+    
+    .calculator-header {
+      h2 {
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+// Мобильные устройства (до 768px)
 @media (max-width: 768px) {
   .water-loss-calculator {
-    padding: 24px;
+    padding: 20px 16px;
+    margin-top: 40px; // Отступ сверху, чтобы отделить от графиков
+    margin-bottom: 32px;
+    border-radius: 8px;
+    position: relative;
+    z-index: 2;
+    
+    .calculator-header {
+      margin-bottom: 24px;
+      
+      h2 {
+        font-size: 22px;
+      }
+      
+      .calculator-description {
+        font-size: 14px;
+      }
+    }
     
     .calculator-content {
       grid-template-columns: 1fr;
+      gap: 20px;
     }
     
     .calculator-form {
+      h3 {
+        font-size: 18px;
+        margin-bottom: 16px;
+      }
+      
       .form-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      
+      .form-group {
+        label {
+          font-size: 13px;
+        }
+        
+        input {
+          padding: 10px;
+          font-size: 14px;
+        }
+      }
+      
+      .form-actions {
+        flex-direction: column;
+        gap: 10px;
+        
+        button {
+          width: 100%;
+          padding: 12px;
+          font-size: 15px;
+        }
+      }
+    }
+    
+    .calculator-result {
+      padding: 16px;
+      
+      h3 {
+        font-size: 18px;
+        margin-bottom: 16px;
+      }
+      
+      .result-item {
+        padding: 12px;
+        margin-bottom: 12px;
+        
+        .result-label {
+          font-size: 13px;
+        }
+        
+        .result-value {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
+// Очень маленькие экраны (до 480px)
+@media (max-width: 480px) {
+  .water-loss-calculator {
+    padding: 16px 12px;
+    margin-top: 40px; // Отступ сверху, чтобы отделить от графиков
+    position: relative;
+    z-index: 2;
+    
+    .calculator-header {
+      h2 {
+        font-size: 20px;
+      }
+      
+      .calculator-description {
+        font-size: 13px;
+      }
+    }
+    
+    .calculator-form {
+      .form-group {
+        input {
+          padding: 8px;
+          font-size: 13px;
+        }
       }
     }
   }

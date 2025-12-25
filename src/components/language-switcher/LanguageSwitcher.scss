@@ -28,3 +28,40 @@
   }
 }
 
+// Планшеты (768px - 1024px)
+@media (max-width: 1024px) and (min-width: 769px) {
+  .language-switcher {
+    gap: 6px;
+    
+    .lang-btn {
+      padding: 7px 14px;
+      font-size: 13px;
+    }
+  }
+}
+
+// Мобильные устройства (до 768px)
+@media (max-width: 768px) {
+  .language-switcher {
+    gap: 6px;
+    
+    .lang-btn {
+      padding: 6px 12px;
+      font-size: 12px;
+      border-width: 1.5px;
+    }
+  }
+}
+
+// Очень маленькие экраны (до 480px)
+@media (max-width: 480px) {
+  .language-switcher {
+    gap: 4px;
+    
+    .lang-btn {
+      padding: 5px 10px;
+      font-size: 11px;
+    }
+  }
+}
+

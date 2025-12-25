@@ -138,17 +138,101 @@
   }
 }
 
+// Планшеты (768px - 1024px)
+@media (max-width: 1024px) and (min-width: 769px) {
+  .channels-table {
+    padding: 24px;
+    
+    .table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      
+      table {
+        font-size: 13px;
+        
+        thead th,
+        tbody td {
+          padding: 10px 6px;
+        }
+      }
+    }
+  }
+}
+
+// Мобильные устройства (до 768px)
 @media (max-width: 768px) {
   .channels-table {
     padding: 16px;
     
+    h2 {
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+    
     .table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 6px;
+      
+      &::-webkit-scrollbar {
+        height: 6px;
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background: #94a3b8;
+        border-radius: 3px;
+      }
+      
       table {
         font-size: 12px;
+        min-width: 600px;
         
         thead th,
         tbody td {
           padding: 8px 4px;
+          white-space: nowrap;
+        }
+        
+        thead th {
+          font-size: 11px;
+        }
+        
+        tbody td {
+          font-size: 12px;
+          
+          .status-badge {
+            font-size: 10px;
+            padding: 3px 6px;
+          }
+        }
+      }
+    }
+    
+    .actions {
+      flex-direction: column;
+      gap: 4px;
+      
+      button {
+        font-size: 16px;
+        padding: 6px;
+      }
+    }
+  }
+}
+
+// Очень маленькие экраны (до 480px)
+@media (max-width: 480px) {
+  .channels-table {
+    padding: 12px;
+    
+    .table-wrapper {
+      table {
+        font-size: 11px;
+        min-width: 550px;
+        
+        thead th,
+        tbody td {
+          padding: 6px 3px;
         }
       }
     }

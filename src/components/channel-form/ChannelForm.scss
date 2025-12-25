@@ -184,13 +184,78 @@
   }
 }
 
+// Планшеты (768px - 1024px)
+@media (max-width: 1024px) and (min-width: 769px) {
+  .channel-form {
+    padding: 24px;
+    max-width: 90vw;
+    
+    .form-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+}
+
+// Мобильные устройства (до 768px)
 @media (max-width: 768px) {
   .channel-form {
     padding: 16px;
     max-height: 95vh;
+    max-width: 95vw;
+    border-radius: 8px;
+    
+    h2 {
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
     
     .form-grid {
       grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    
+    .form-group {
+      label {
+        font-size: 13px;
+      }
+      
+      input,
+      textarea {
+        padding: 10px;
+        font-size: 14px;
+      }
+    }
+    
+    .form-actions {
+      flex-direction: column;
+      gap: 10px;
+      
+      button {
+        width: 100%;
+        padding: 12px;
+        font-size: 15px;
+      }
+    }
+  }
+}
+
+// Очень маленькие экраны (до 480px)
+@media (max-width: 480px) {
+  .channel-form {
+    padding: 12px;
+    max-width: 100vw;
+    
+    h2 {
+      font-size: 18px;
+    }
+    
+    .form-group {
+      input,
+      textarea {
+        padding: 8px;
+        font-size: 13px;
+      }
     }
   }
 }

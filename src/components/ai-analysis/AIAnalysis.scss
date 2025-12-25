@@ -182,17 +182,68 @@
   }
 }
 
+// Планшеты (768px - 1024px)
+@media (max-width: 1024px) and (min-width: 769px) {
+  .ai-analysis {
+    padding: 24px;
+    
+    .ai-header {
+      h3 {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+// Мобильные устройства (до 768px)
 @media (max-width: 768px) {
   .ai-analysis {
     padding: 16px;
+    border-radius: 8px;
     
     .ai-header {
       h3 {
         font-size: 18px;
+        margin-bottom: 12px;
       }
       
       .analyze-btn {
         width: 100%;
+        padding: 12px;
+        font-size: 15px;
+      }
+    }
+    
+    .analysis-result {
+      padding: 16px;
+      
+      .analysis-header {
+        h4 {
+          font-size: 16px;
+        }
+      }
+      
+      .analysis-content {
+        font-size: 14px;
+        line-height: 1.6;
+      }
+    }
+  }
+}
+
+// Очень маленькие экраны (до 480px)
+@media (max-width: 480px) {
+  .ai-analysis {
+    padding: 12px;
+    
+    .ai-header {
+      h3 {
+        font-size: 16px;
+      }
+      
+      .analyze-btn {
+        font-size: 14px;
+        padding: 10px;
       }
     }
   }

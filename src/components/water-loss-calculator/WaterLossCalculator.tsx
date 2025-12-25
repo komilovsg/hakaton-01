@@ -10,7 +10,7 @@ interface CalculationResult {
   lossPercentage: number; // процент потерь
   lossPerKm: number; // потери на 1 км (%)
   efficiency: number; // КПД
-  evaporationLoss?: number; // потери на испарение (упрощенный расчет)
+  evaporationLoss?: number; // потери на испаренфктние (упрощенный расчет)
 }
 
 export default function WaterLossCalculator() {
@@ -92,12 +92,6 @@ export default function WaterLossCalculator() {
     if (lossPercentage > 30) return 'critical';
     if (lossPercentage > 15) return 'high-loss';
     return 'normal';
-  };
-
-  const getStatusLabel = (status: 'normal' | 'high-loss' | 'critical') => {
-    if (status === 'critical') return t('channelInfo.status.critical');
-    if (status === 'high-loss') return t('channelInfo.status.highLoss');
-    return t('channelInfo.status.normal');
   };
 
   const getStatusTag = (status: 'normal' | 'high-loss' | 'critical') => {
