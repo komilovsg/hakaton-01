@@ -13,23 +13,18 @@
     }
   }
   
-  .landing-header {
+  .landing-hero {
     background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
     color: white;
-    padding: 60px 0;
+    padding: 120px 0 60px 0;
     text-align: center;
     position: relative;
     width: 100%;
+    margin-top: 80px;
     
-    .header-top {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      
-      @media (max-width: 768px) {
-        position: static;
-        margin-bottom: 20px;
-      }
+    @media (min-width: 768px) {
+      margin-top: 100px;
+      padding: 140px 0 80px 0;
     }
     
     .landing-title {

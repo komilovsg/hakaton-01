@@ -4,26 +4,30 @@
   align-items: center;
   
   .lang-btn {
-    padding: 8px 16px;
+    padding: 6px 10px;
     border: 2px solid #e5e7eb;
     border-radius: 6px;
     background: white;
     color: #374151;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 20px;
+    line-height: 1;
     cursor: pointer;
     transition: all 0.2s;
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     
     &:hover {
       border-color: #0284c7;
       background: #f0f9ff;
-      color: #0284c7;
+      transform: scale(1.05);
     }
     
     &.active {
       background: #0284c7;
-      color: white;
       border-color: #0284c7;
+      box-shadow: 0 2px 4px rgba(2, 132, 199, 0.3);
     }
   }
 }

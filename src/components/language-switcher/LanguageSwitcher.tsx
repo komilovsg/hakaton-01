@@ -13,14 +13,18 @@ export default function LanguageSwitcher() {
       <button
         className={`lang-btn ${i18n.language === 'ru' ? 'active' : ''}`}
         onClick={() => changeLanguage('ru')}
+        title="Русский"
+        aria-label="Русский"
       >
-        🇷🇺 Русский
+        🇷🇺
       </button>
       <button
         className={`lang-btn ${i18n.language === 'tj' ? 'active' : ''}`}
         onClick={() => changeLanguage('tj')}
+        title="Тоҷикӣ"
+        aria-label="Тоҷикӣ"
       >
-        🇹🇯 Тоҷикӣ
+        🇹🇯
       </button>
     </div>
   );

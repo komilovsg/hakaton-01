@@ -1,0 +1,87 @@
+.add-channel-page {
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #1f2937;
+  }
+
+  .add-channel-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+
+    @media (max-width: 1200px) {
+      grid-template-columns: 1fr;
+    }
+
+    .map-card,
+    .form-card {
+      .ant-card-head-title {
+        font-weight: 600;
+      }
+    }
+
+    .map-card {
+      .map-wrapper {
+        height: 500px;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        margin-bottom: 1rem;
+
+        @media (max-width: 768px) {
+          height: 400px;
+        }
+      }
+
+      .selected-coordinates {
+        padding: 0.75rem;
+        background: #f0f9ff;
+        border-radius: 0.5rem;
+        margin-top: 1rem;
+
+        p {
+          margin: 0;
+          color: #0369a1;
+          font-size: 0.875rem;
+        }
+      }
+    }
+
+    .form-card {
+      .ant-form-item {
+        margin-bottom: 1rem;
+      }
+
+      .photo-upload-section {
+        .photo-preview {
+          position: relative;
+          display: inline-block;
+          margin-top: 0.5rem;
+
+          img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 0.5rem;
+            border: 1px solid #d1d5db;
+            object-fit: cover;
+          }
+
+          .remove-photo-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+
+            &:hover {
+              background: rgba(0, 0, 0, 0.8);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

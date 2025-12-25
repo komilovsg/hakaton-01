@@ -1,0 +1,66 @@
+.weather-page {
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #1f2937;
+  }
+
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    gap: 1rem;
+  }
+
+  .current-weather-card {
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+
+    .ant-card-body {
+      color: white;
+    }
+
+    .ant-typography {
+      color: white !important;
+    }
+
+    .weather-icon-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+
+      .weather-icon {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 1rem;
+      }
+    }
+
+    .ant-card {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+
+      .ant-typography {
+        color: white !important;
+      }
+    }
+  }
+
+  .forecast-card {
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+

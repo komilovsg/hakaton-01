@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Modal, Form, InputNumber, Select, Button, Space, Statistic, Tag, Row, Col, Divider } from 'antd';
+import { Modal, Form, InputNumber, Statistic, Tag, Row, Col, Divider } from 'antd';
 import type { ChannelData } from '../../types/channel';
 import './ChannelForm.scss';
 

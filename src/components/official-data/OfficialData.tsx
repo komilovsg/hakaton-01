@@ -117,13 +117,13 @@ export default function OfficialData() {
               });
             }
             if (data.row5_Qg !== null) {
-              analysisData.row5_Qg.push(data.row5_Qg);
+            analysisData.row5_Qg.push(data.row5_Qg);
             }
             if (data.row6_Wg !== null) {
-              analysisData.row6_Wg.push(data.row6_Wg);
+            analysisData.row6_Wg.push(data.row6_Wg);
             }
             if (data.row7_Wtotal !== null) {
-              analysisData.row7_Wtotal.push(data.row7_Wtotal);
+            analysisData.row7_Wtotal.push(data.row7_Wtotal);
             }
           }
         }
@@ -581,16 +581,16 @@ export default function OfficialData() {
                       secondFormulaValues.map((calculatedS, idx) => {
                         const displayValue = calculatedS !== null && calculatedS !== undefined && !isNaN(calculatedS) && calculatedS > 0 ? calculatedS.toFixed(1) : '';
                         return (
-                          <td key={`row1-s-${idx}`} className="editable-cell">
-                            <input
-                              type="number"
-                              step="0.1"
+                        <td key={`row1-s-${idx}`} className="editable-cell">
+                          <input
+                            type="number"
+                            step="0.1"
                               value={displayValue}
-                              readOnly
-                              style={{ backgroundColor: '#f0f0f0' }}
-                              placeholder="—"
-                            />
-                          </td>
+                            readOnly
+                            style={{ backgroundColor: '#f0f0f0' }}
+                            placeholder="—"
+                          />
+                        </td>
                         );
                       })
                     ) : (
@@ -598,16 +598,16 @@ export default function OfficialData() {
                       thirdFormulaValues.map((qfx, idx) => {
                         const displayValue = qfx !== null && qfx !== undefined && !isNaN(qfx) && qfx > 0 ? qfx.toFixed(1) : '';
                         return (
-                          <td key={`row1-qfx-${idx}`} className="editable-cell">
-                            <input
-                              type="number"
-                              step="0.1"
+                        <td key={`row1-qfx-${idx}`} className="editable-cell">
+                          <input
+                            type="number"
+                            step="0.1"
                               value={displayValue}
-                              readOnly
-                              style={{ backgroundColor: '#f0f0f0' }}
-                              placeholder="—"
-                            />
-                          </td>
+                            readOnly
+                            style={{ backgroundColor: '#f0f0f0' }}
+                            placeholder="—"
+                          />
+                        </td>
                         );
                       })
                     )}

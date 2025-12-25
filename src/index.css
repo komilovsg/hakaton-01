@@ -80,9 +80,9 @@ body {
   ::-webkit-scrollbar-thumb {
     background: #94a3b8;
     border-radius: 3px;
-    
-    &:hover {
-      background: #64748b;
-    }
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
   }
 }

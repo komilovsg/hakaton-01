@@ -9,7 +9,6 @@ import ChannelsChart from '../channels-chart/ChannelsChart';
 import WaterLossCalculator from '../water-loss-calculator/WaterLossCalculator';
 import OfficialData from '../official-data/OfficialData';
 import AIAnalysis from '../ai-analysis/AIAnalysis';
-import LanguageSwitcher from '../language-switcher/LanguageSwitcher';
 import type { ChannelData } from '../../types/channel';
 import './Landing.scss';
 
@@ -724,11 +723,8 @@ export default function Landing() {
 
   return (
     <div className="landing">
-      <header className="landing-header">
+      <div className="landing-hero">
         <div className="container">
-          <div className="header-top">
-            <LanguageSwitcher />
-          </div>
           <h1 className="landing-title">
             {t('header.title')}
           </h1>
@@ -739,7 +735,7 @@ export default function Landing() {
             {t('header.tagline')}
           </p>
         </div>
-      </header>
+      </div>
 
       <main className="landing-main">
         <div className="container">
