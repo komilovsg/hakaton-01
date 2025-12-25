@@ -59,7 +59,11 @@ function Map2GIS({ channels, selectedChannel, onChannelSelect }: MapProps) {
   const mapglAPIRef = useRef<MapGLAPI | null>(null);
   const popupsRef = useRef<MapGLPopup[]>([]);
   const sourcesRef = useRef<MapGLGeoJsonSource[]>([]);
-  const DG_API_KEY = 'e4b41575-a619-44af-93dd-a8456b00c05e';
+  const DG_API_KEY = import.meta.env.VITE_DG_API_KEY;
+
+  if (!DG_API_KEY) {
+    console.error('VITE_DG_API_KEY is not set. Please add it to .env.local file.');
+  }
 
   useEffect(() => {
     let map: MapGLMap | null = null;
@@ -70,6 +74,11 @@ function Map2GIS({ channels, selectedChannel, onChannelSelect }: MapProps) {
       
       const container = document.getElementById('map-2gis-container');
       if (!container) return;
+
+      if (!DG_API_KEY) {
+        console.error('2GIS API key is not configured. Map will not be initialized.');
+        return;
+      }
 
       // Инициализация 2GIS MapGL карты
       map = new mapglAPI.Map('map-2gis-container', {

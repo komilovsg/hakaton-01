@@ -1,6 +1,9 @@
 const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
-// Используем прокси /openai (см. vite.config.ts), чтобы обойти CORS в браузере
 const OPENAI_BASE_URL = import.meta.env.VITE_OPENAI_BASE_URL || '/openai';
+
+if (!OPENAI_API_KEY) {
+  console.error('VITE_OPENAI_API_KEY is not set. Please add it to .env.local file.');
+}
 
 export interface DeepSeekAnalysis {
   analysis: string;
@@ -97,6 +100,10 @@ ${requestPart}`
 - Статус: ${statusText}
 
 ${requestPart}`;
+
+  if (!OPENAI_API_KEY) {
+    throw new Error('OpenAI API key is not configured. Please add VITE_OPENAI_API_KEY to .env.local file.');
+  }
 
   try {
     const apiUrl = OPENAI_BASE_URL.startsWith('/') 
@@ -321,6 +328,10 @@ ${requestPart}`
 - Общий объем водозабора: ${totalVolume.toFixed(3)} млн.м³
 
 ${requestPart}`;
+
+  if (!OPENAI_API_KEY) {
+    throw new Error('OpenAI API key is not configured. Please add VITE_OPENAI_API_KEY to .env.local file.');
+  }
 
   try {
     const apiUrl = OPENAI_BASE_URL.startsWith('/') 
