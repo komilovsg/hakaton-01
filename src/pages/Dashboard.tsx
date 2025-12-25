@@ -9,6 +9,7 @@ import {
   PlusCircleOutlined,
   TableOutlined,
   CloudOutlined,
+  BarChartOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
@@ -58,6 +59,11 @@ export default function Dashboard() {
       key: '/dashboard/channels',
       icon: <TableOutlined />,
       label: t('dashboard.channels', 'База каналов'),
+    },
+    {
+      key: '/dashboard/chart',
+      icon: <BarChartOutlined />,
+      label: t('dashboard.chart', 'Графики'),
     },
     {
       key: '/dashboard/weather',

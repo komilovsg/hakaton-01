@@ -1,0 +1,77 @@
+.channels-chart-page {
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #1f2937;
+  }
+
+  .chart-card {
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .chart-header {
+      margin-bottom: 1.5rem;
+
+      h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #1f2937;
+      }
+
+      .chart-description {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #6b7280;
+      }
+    }
+
+    .chart-container {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Планшеты (768px - 1024px)
+@media (max-width: 1024px) and (min-width: 769px) {
+  .channels-chart-page {
+    .chart-card {
+      .chart-header {
+        h3 {
+          font-size: 1.25rem;
+        }
+      }
+    }
+  }
+}
+
+// Мобильные устройства (до 768px)
+@media (max-width: 768px) {
+  .channels-chart-page {
+    .page-title {
+      font-size: 1.5rem;
+    }
+
+    .chart-card {
+      margin-bottom: 1.5rem;
+
+      .chart-header {
+        margin-bottom: 1rem;
+
+        h3 {
+          font-size: 1.1rem;
+        }
+
+        .chart-description {
+          font-size: 0.85rem;
+        }
+      }
+    }
+  }
+}
+

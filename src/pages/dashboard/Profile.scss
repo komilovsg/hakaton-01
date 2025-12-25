@@ -1,21 +1,93 @@
 .profile-page {
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #1f2937;
+    background: linear-gradient(to right, #2563eb, #06b6d4);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
   .profile-header {
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 1.5rem;
     margin-bottom: 2rem;
 
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
       grid-template-columns: 1fr;
     }
 
     .profile-card {
       text-align: center;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+      &:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+      }
 
       .profile-info {
         display: flex;
         flex-direction: column;
         align-items: center;
+        padding: 1rem;
+
+        .avatar-wrapper {
+          position: relative;
+          margin-bottom: 1.5rem;
+
+          .profile-avatar {
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            border: 4px solid white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+
+          .avatar-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          }
+        }
+
+        .profile-name {
+          margin: 0.5rem 0;
+          color: #1f2937;
+          font-size: 1.5rem;
+        }
+
+        .profile-email {
+          font-size: 1rem;
+          color: #6b7280;
+          margin-bottom: 0.5rem;
+        }
+
+        .profile-meta {
+          margin-top: 1rem;
+          padding-top: 1rem;
+          border-top: 1px solid #e5e7eb;
+          width: 100%;
+
+          .meta-item {
+            font-size: 0.875rem;
+            color: #9ca3af;
+          }
+        }
       }
     }
 
@@ -28,37 +100,151 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
+      @media (max-width: 480px) {
+        grid-template-columns: 1fr;
+      }
+
       .stat-card {
-        text-align: center;
-        transition: transform 0.2s, box-shadow 0.2s;
+        border-radius: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
         &:hover {
           transform: translateY(-4px);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
         }
 
-        .stat-value {
-          font-size: 2rem;
-          font-weight: 700;
-          color: #1f2937;
+        &.stat-card-total {
+          background: linear-gradient(135deg, #f9fafb, #ffffff);
+        }
+
+        &.stat-card-created {
+          background: linear-gradient(135deg, #f0fdf4, #ffffff);
+        }
+
+        &.stat-card-updated {
+          background: linear-gradient(135deg, #eff6ff, #ffffff);
+        }
+
+        &.stat-card-deleted {
+          background: linear-gradient(135deg, #fef2f2, #ffffff);
+        }
+
+        .ant-statistic-title {
+          color: #6b7280;
+          font-size: 0.875rem;
+          font-weight: 500;
           margin-bottom: 0.5rem;
         }
 
-        .stat-label {
-          color: #6b7280;
-          font-size: 0.875rem;
+        .ant-statistic-content {
+          .ant-statistic-content-prefix {
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+          }
         }
       }
     }
   }
 
   .history-card {
-    .ant-table {
-      .ant-table-thead > tr > th {
-        background: #f9fafb;
-        font-weight: 600;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .history-title {
+        margin: 0;
+        color: #1f2937;
+        font-size: 1.5rem;
+      }
+
+      .history-filters {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        flex-wrap: wrap;
+
+        @media (max-width: 768px) {
+          width: 100%;
+
+          .history-search {
+            width: 100% !important;
+            margin-right: 0 !important;
+            margin-bottom: 0.5rem;
+          }
+
+          .history-filter {
+            width: 100% !important;
+          }
+        }
       }
     }
+
+    .history-table {
+      .ant-table {
+        .ant-table-thead > tr > th {
+          background: #f9fafb;
+          font-weight: 600;
+          color: #374151;
+          border-bottom: 2px solid #e5e7eb;
+        }
+
+        .ant-table-tbody > tr {
+          transition: all 0.2s;
+
+          &:hover {
+            background: #f9fafb;
+          }
+
+          td {
+            border-bottom: 1px solid #f3f4f6;
+          }
+        }
+      }
+    }
+
+    .history-empty {
+      padding: 3rem 0;
+    }
+  }
+}
+
+// Анимации
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profile-page {
+  animation: fadeIn 0.5s ease-out;
+
+  .profile-card,
+  .stat-card,
+  .history-card {
+    animation: fadeIn 0.5s ease-out;
   }
 }
 

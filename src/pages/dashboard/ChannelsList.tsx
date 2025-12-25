@@ -1,20 +1,32 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Table, Button, Tag, Space, Popconfirm, message } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, BarChartOutlined } from '@ant-design/icons';
 import { useChannelsStore, type Channel } from '../../stores/channelsStore';
+import { useSelectedChannelsStore } from '../../stores/selectedChannelsStore';
 import EditChannelModal from './EditChannelModal';
 import type { ColumnsType } from 'antd/es/table';
 import './ChannelsList.scss';
 
 export default function ChannelsList() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { channels, deleteChannel } = useChannelsStore();
+  const { selectedChannelIds, removeChannel: removeSelectedChannel } = useSelectedChannelsStore();
   const [editingChannel, setEditingChannel] = useState<Channel | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
+  // Фильтруем каналы - показываем только те, что добавлены в таблицу
+  const tableChannels = useMemo(() => {
+    return channels.filter((channel) => selectedChannelIds.includes(channel.id));
+  }, [channels, selectedChannelIds]);
+
+  const hasSelectedChannels = selectedChannelIds.length > 0;
+
   const handleDelete = (id: string) => {
     deleteChannel(id);
+    removeSelectedChannel(id); // Удаляем из выбранных
     message.success(t('channelsList.deleted', 'Канал удален'));
   };
 
@@ -183,17 +195,28 @@ export default function ChannelsList() {
     <div className="channels-list-page">
       <div className="page-header">
         <h1 className="page-title">{t('channelsList.title', 'База каналов')}</h1>
-        <Button
-          type="primary"
-          onClick={() => window.location.href = '/dashboard/add-channel'}
-        >
-          {t('channelsList.addChannel', 'Добавить канал')}
-        </Button>
+        <Space>
+          {hasSelectedChannels && (
+            <Button
+              type="default"
+              icon={<BarChartOutlined />}
+              onClick={() => navigate('/dashboard/chart')}
+            >
+              {t('channelsList.viewChart', 'График')}
+            </Button>
+          )}
+          <Button
+            type="primary"
+            onClick={() => navigate('/dashboard/add-channel')}
+          >
+            {t('channelsList.addChannel', 'Добавить канал')}
+          </Button>
+        </Space>
       </div>
 
       <Table
         columns={columns}
-        dataSource={channels}
+        dataSource={tableChannels}
         rowKey="id"
         scroll={{ x: 1100 }}
         pagination={{
