@@ -9,6 +9,8 @@ import MapView from './pages/dashboard/MapView';
 import AddChannel from './pages/dashboard/AddChannel';
 import ChannelsList from './pages/dashboard/ChannelsList';
 import ChannelsChart from './pages/dashboard/ChannelsChart';
+import SourceData from './pages/dashboard/SourceData';
+import Calculations from './pages/dashboard/Calculations';
 import Weather from './pages/dashboard/Weather';
 import Profile from './pages/dashboard/Profile';
 import './App.css';
@@ -48,6 +50,8 @@ function App() {
           <Route path="add-channel" element={<AddChannel />} />
           <Route path="channels" element={<ChannelsList />} />
           <Route path="chart" element={<ChannelsChart />} />
+          <Route path="source-data" element={<SourceData />} />
+          <Route path="calculations" element={<Calculations />} />
           <Route path="weather" element={<Weather />} />
           <Route path="profile" element={<Profile />} />
         </Route>

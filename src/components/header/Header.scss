@@ -9,12 +9,43 @@
 
   &.transparent {
     background: transparent;
+
+    .nav-link,
+    .mobile-nav-link {
+      color: white;
+
+      &:hover {
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+
+    .logo-text {
+      color: white;
+      -webkit-text-fill-color: white;
+    }
   }
 
   &.scrolled {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    .nav-link,
+    .mobile-nav-link {
+      color: #374151;
+
+      &:hover {
+        color: #111827;
+      }
+    }
+
+    .logo-text {
+      background: linear-gradient(to right, #2563eb, #06b6d4);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
   }
 
   .header-container {
@@ -50,26 +81,22 @@
     }
 
     .logo-icon {
-      width: 24px;
-      height: 24px;
+      width: 32px;
+      height: 32px;
       background: linear-gradient(135deg, #3b82f6, #06b6d4);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      padding: 4px;
+      padding: 6px;
     }
 
     .logo-text {
       margin-left: 0.75rem;
       font-size: 1.25rem;
       font-weight: 700;
-      background: linear-gradient(to right, #2563eb, #06b6d4);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
+      transition: color 0.3s ease;
 
       @media (min-width: 640px) {
         font-size: 1.5rem;
@@ -94,7 +121,6 @@
     }
 
     .nav-link {
-      color: #374151;
       text-decoration: none;
       font-weight: 500;
       background: none;
@@ -103,11 +129,8 @@
       font-size: 1rem;
       font-family: inherit;
       padding: 0.5rem 0;
-      transition: color 0.2s;
-
-      &:hover {
-        color: #111827;
-      }
+      transition: color 0.3s ease;
+      // Цвет будет установлен через .transparent или .scrolled классы
     }
   }
 
@@ -175,7 +198,7 @@
       border: none;
       cursor: pointer;
       padding: 0;
-      z-index: 1001;
+      z-index: 10001;
       position: relative;
 
       @media (min-width: 768px) {
@@ -216,19 +239,16 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+    z-index: 9999;
+    pointer-events: none;
 
     @media (min-width: 768px) {
       display: none;
     }
 
     &.open {
-      opacity: 1;
-      visibility: visible;
+      pointer-events: auto;
     }
 
     .mobile-menu-content {
@@ -247,6 +267,36 @@
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       overflow-y: auto;
       box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+      z-index: 10000;
+
+      .mobile-menu-close {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f3f4f6;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.2s;
+        z-index: 10001;
+        color: #374151;
+        font-size: 1.25rem;
+
+        &:hover {
+          background: #e5e7eb;
+          color: #111827;
+          transform: scale(1.1);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+      }
 
       .mobile-language-section {
         padding-bottom: 0.75rem;

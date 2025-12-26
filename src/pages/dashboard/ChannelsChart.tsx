@@ -1,27 +1,26 @@
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useChannelsStore } from '../../stores/channelsStore';
-import { useSelectedChannelsStore } from '../../stores/selectedChannelsStore';
 import { Card, Empty } from 'antd';
 import './ChannelsChart.scss';
 
 export default function ChannelsChart() {
   const { t } = useTranslation();
   const allChannels = useChannelsStore((state) => state.channels);
-  const { selectedChannelIds } = useSelectedChannelsStore();
 
-  // Получаем только выбранные каналы
-  const selectedChannels = allChannels.filter((channel) =>
-    selectedChannelIds.includes(channel.id)
-  );
+  // Всегда показываем все каналы из таблицы в графике
+  const channelsForChart = useMemo(() => {
+    return allChannels;
+  }, [allChannels]);
 
-  if (selectedChannels.length === 0) {
+  if (channelsForChart.length === 0) {
     return (
       <div className="channels-chart-page">
         <h1 className="page-title">{t('chart.title', 'Графики каналов')}</h1>
         <Card>
           <Empty
-            description={t('chart.empty', 'Нет выбранных каналов для отображения графика. Добавьте каналы в таблицу на странице карты.')}
+            description={t('chart.empty', 'Нет каналов для отображения графика. Добавьте каналы в таблицу.')}
           />
         </Card>
       </div>
@@ -29,7 +28,7 @@ export default function ChannelsChart() {
   }
 
   // Подготовка данных для графика
-  const chartData = selectedChannels.map((channel) => ({
+  const chartData = channelsForChart.map((channel) => ({
     name: channel.name.length > 15 ? channel.name.substring(0, 15) + '...' : channel.name,
     fullName: channel.name,
     'Потери, %': channel.lossPercentage,

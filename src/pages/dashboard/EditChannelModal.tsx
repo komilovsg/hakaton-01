@@ -20,6 +20,10 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
 });
 
+// Константы для карты
+const DEFAULT_CENTER: [number, number] = [38.5731, 68.7864]; // Душанбе
+const DEFAULT_ZOOM = 7;
+
 function MapClickHandler({ onMapClick }: { onMapClick: (lat: number, lng: number) => void }) {
   useMapEvents({
     click: (e) => {
@@ -28,6 +32,26 @@ function MapClickHandler({ onMapClick }: { onMapClick: (lat: number, lng: number
     },
   });
   return null;
+}
+
+interface ChannelFormValues {
+  name: string;
+  length: number;
+  width: number;
+  depth: number;
+  coverage: Channel['coverage'];
+  waterVolumeIn: number;
+  waterVolumeOut: number;
+  waterFlow: number;
+  filtrationCoefficient: number;
+  condition: Channel['condition'];
+  vegetation: Channel['vegetation'];
+  soilType: Channel['soilType'];
+  groundwaterDepth: number;
+  slope: number;
+  measurementDate: dayjs.Dayjs;
+  lastMaintenanceDate: dayjs.Dayjs | undefined;
+  photo: string | undefined;
 }
 
 interface EditChannelModalProps {
@@ -46,13 +70,10 @@ export default function EditChannelModal({ channel, open, onClose, onSuccess }: 
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoBase64, setPhotoBase64] = useState<string | null>(null);
 
-  const center: [number, number] = [38.5731, 68.7864]; // Душанбе
-  const zoom = 7;
-
   // Заполняем форму данными канала при открытии
   useEffect(() => {
     if (channel && open) {
-      const [lat, lng] = channel.coordinates[0] || [center[0], center[1]];
+      const [lat, lng] = channel.coordinates[0] || DEFAULT_CENTER;
       setSelectedPoint([lat, lng]);
       setPhotoPreview(channel.photo || null);
       setPhotoBase64(channel.photo || null);
@@ -110,7 +131,7 @@ export default function EditChannelModal({ channel, open, onClose, onSuccess }: 
     onClose();
   };
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: ChannelFormValues) => {
     if (!channel || !selectedPoint) {
       message.error(t('editChannel.selectPoint', 'Выберите точку на карте'));
       return;
@@ -122,17 +143,34 @@ export default function EditChannelModal({ channel, open, onClose, onSuccess }: 
       const measurementDate = values.measurementDate ? dayjs(values.measurementDate).toDate() : new Date();
       const season = getSeasonFromDate(measurementDate);
 
-      // Улучшенный расчет потерь
+      // Получаем температуру для координат канала из прогноза погоды
+      let temperature: number | undefined;
+      try {
+        const weatherResponse = await fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=${selectedPoint[0]}&longitude=${selectedPoint[1]}&current=temperature_2m&timezone=auto`
+        );
+        if (weatherResponse.ok) {
+          const weatherData = await weatherResponse.json();
+          temperature = weatherData.current?.temperature_2m;
+        }
+      } catch (error) {
+        console.warn('Не удалось получить температуру из прогноза погоды:', error);
+        // Продолжаем без температуры, используем сезонный коэффициент
+      }
+
+      // Улучшенный расчет потерь с учетом всех факторов, включая температуру
       const channelData = {
         waterVolumeIn: values.waterVolumeIn,
         waterVolumeOut: values.waterVolumeOut,
         length: values.length,
         filtrationCoefficient: values.filtrationCoefficient || 2.08,
+        coverage: values.coverage,
         condition: values.condition || 'satisfactory',
         vegetation: values.vegetation || 'moderate',
         groundwaterDepth: values.groundwaterDepth,
         season,
         soilType: values.soilType || 'loam',
+        temperature, // Температура из прогноза погоды для координат канала
       };
 
       const lossCalculation = calculateEnhancedLoss(channelData);
@@ -192,8 +230,8 @@ export default function EditChannelModal({ channel, open, onClose, onSuccess }: 
         <Card className="map-card" title={t('addChannel.selectLocation', 'Выберите местоположение на карте')}>
           <div className="map-wrapper">
             <MapContainer
-              center={selectedPoint || center}
-              zoom={zoom}
+              center={selectedPoint || DEFAULT_CENTER}
+              zoom={DEFAULT_ZOOM}
               style={{ height: '100%', width: '100%' }}
               scrollWheelZoom={true}
             >
@@ -348,7 +386,7 @@ export default function EditChannelModal({ channel, open, onClose, onSuccess }: 
               />
             </Form.Item>
 
-            <Divider orientation="left">{t('addChannel.additionalFactors', 'Дополнительные факторы')}</Divider>
+            <Divider>{t('addChannel.additionalFactors', 'Дополнительные факторы')}</Divider>
 
             <Form.Item
               name="condition"

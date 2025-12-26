@@ -1,11 +1,12 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, Avatar, Typography, Table, Tag, Space, Empty, Input, Select, Statistic } from 'antd';
-import { UserOutlined, PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, FilterOutlined } from '@ant-design/icons';
+import { Card, Avatar, Typography, Table, Tag, Space, Empty, Input, Select, Statistic, message, Dropdown } from 'antd';
+import { UserOutlined, PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, FilterOutlined, CameraOutlined, DeleteFilled, CheckCircleOutlined } from '@ant-design/icons';
 import { useAuthStore } from '../../stores/authStore';
 import { useAuditStore } from '../../stores/auditStore';
 import type { ColumnsType } from 'antd/es/table';
 import type { AuditLog } from '../../stores/auditStore';
+import type { MenuProps } from 'antd';
 import './Profile.scss';
 
 const { Title, Text } = Typography;
@@ -15,6 +16,8 @@ const { Option } = Select;
 export default function Profile() {
   const { t } = useTranslation();
   const user = useAuthStore((state) => state.user);
+  const updateAvatar = useAuthStore((state) => state.updateAvatar);
+  const removeAvatar = useAuthStore((state) => state.removeAvatar);
   const getLogsByUser = useAuditStore((state) => state.getLogsByUser);
   
   const allLogs = useMemo(() => {
@@ -145,6 +148,68 @@ export default function Profile() {
     deleted: allLogs.filter((log) => log.action === 'delete').length,
   };
 
+  const handleAvatarUpload = (file: File) => {
+    const isImage = file.type.startsWith('image/');
+    if (!isImage) {
+      message.error(t('profile.avatarNotImage', 'Выберите изображение'));
+      return;
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error(t('profile.avatarTooLarge', 'Изображение должно быть меньше 2MB'));
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const result = e.target?.result;
+      if (typeof result === 'string') {
+        updateAvatar(result);
+        message.success(t('profile.avatarUploaded', 'Аватарка успешно загружена'));
+      }
+    };
+    reader.onerror = () => {
+      message.error(t('profile.avatarUploadError', 'Ошибка при загрузке аватарки'));
+    };
+    reader.readAsDataURL(file);
+  };
+
+
+  const handleRemoveAvatar = () => {
+    removeAvatar();
+    message.success(t('profile.avatarRemoved', 'Аватарка удалена'));
+  };
+
+  const avatarMenuItems: MenuProps['items'] = [
+    {
+      key: 'edit',
+      label: t('profile.editAvatar', 'Изменить аватарку'),
+      icon: <CameraOutlined />,
+      onClick: () => {
+        // Открываем загрузку через скрытый input
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = (e) => {
+          const file = (e.target as HTMLInputElement).files?.[0];
+          if (file) {
+            handleAvatarUpload(file);
+          }
+        };
+        input.click();
+      },
+    },
+    {
+      key: 'delete',
+      label: t('profile.removeAvatar', 'Удалить аватарку'),
+      icon: <DeleteFilled />,
+      danger: true,
+      onClick: () => {
+        handleRemoveAvatar();
+      },
+    },
+  ];
+
   return (
     <div className="profile-page">
       <Title level={1} className="page-title">
@@ -157,12 +222,15 @@ export default function Profile() {
             <div className="avatar-wrapper">
               <Avatar
                 size={100}
+                src={user?.avatar}
                 icon={<UserOutlined />}
                 className="profile-avatar"
               />
-              <div className="avatar-badge">
-                <UserOutlined />
-              </div>
+              <Dropdown menu={{ items: avatarMenuItems }} placement="bottomRight" trigger={['click']}>
+                <div className="avatar-status-badge">
+                  <CheckCircleOutlined />
+                </div>
+              </Dropdown>
             </div>
             <Title level={2} className="profile-name">
               {user?.name || t('profile.user', 'Пользователь')}

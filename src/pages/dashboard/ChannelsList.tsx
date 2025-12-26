@@ -17,10 +17,10 @@ export default function ChannelsList() {
   const [editingChannel, setEditingChannel] = useState<Channel | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  // Фильтруем каналы - показываем только те, что добавлены в таблицу
+  // Показываем все каналы в таблице
   const tableChannels = useMemo(() => {
-    return channels.filter((channel) => selectedChannelIds.includes(channel.id));
-  }, [channels, selectedChannelIds]);
+    return channels;
+  }, [channels]);
 
   const hasSelectedChannels = selectedChannelIds.length > 0;
 
@@ -163,15 +163,16 @@ export default function ChannelsList() {
       title: t('channelsList.actions', 'Действия'),
       key: 'actions',
       fixed: 'right',
+      width: 100,
       render: (_: unknown, record: Channel) => (
         <Space>
           <Button
-            type="link"
+            type="text"
             icon={<EditOutlined />}
             onClick={() => handleEdit(record)}
-          >
-            {t('channelsList.edit', 'Редактировать')}
-          </Button>
+            title={t('channelsList.edit', 'Редактировать')}
+            style={{ color: '#1890ff' }}
+          />
           <Popconfirm
             title={t('channelsList.deleteConfirm', 'Удалить канал?')}
             onConfirm={() => handleDelete(record.id)}
@@ -179,12 +180,11 @@ export default function ChannelsList() {
             cancelText={t('channelsList.no', 'Нет')}
           >
             <Button
-              type="link"
+              type="text"
               danger
               icon={<DeleteOutlined />}
-            >
-              {t('channelsList.delete', 'Удалить')}
-            </Button>
+              title={t('channelsList.delete', 'Удалить')}
+            />
           </Popconfirm>
         </Space>
       ),

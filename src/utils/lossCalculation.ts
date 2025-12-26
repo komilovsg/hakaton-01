@@ -46,6 +46,20 @@ const SEASON_COEFFICIENTS = {
   winter: 0.8, // Ноябрь-Март: минимальные потери
 };
 
+/**
+ * Коэффициент температуры для расчета испарения
+ * Чем выше температура, тем больше испарение
+ * Формула: коэффициент = 1 + (температура - 20) / 100
+ * При 20°C коэффициент = 1.0 (базовая норма)
+ * При 30°C коэффициент = 1.1 (на 10% больше испарения)
+ * При 10°C коэффициент = 0.9 (на 10% меньше испарения)
+ */
+export function getTemperatureCoefficient(temperature: number | undefined): number {
+  if (!temperature) return 1.0;
+  // Нормализуем к 20°C как базовой температуре
+  return 1.0 + (temperature - 20) / 100;
+}
+
 // Коэффициенты покрытия канала (влияют на фильтрацию)
 const COVERAGE_COEFFICIENTS = {
   earth: 1.5, // Земляное - высокая фильтрация
@@ -79,7 +93,7 @@ export function calculateBaseLoss(
 /**
  * Улучшенный расчет потерь с учетом всех факторов
  */
-export function calculateEnhancedLoss(channel: Partial<Channel>): {
+export function calculateEnhancedLoss(channel: Partial<Channel> & { temperature?: number }): {
   baseLoss: number;
   enhancedLoss: number;
   lossPercentage: number;
@@ -92,6 +106,7 @@ export function calculateEnhancedLoss(channel: Partial<Channel>): {
       season: number;
       soilType: number;
       coverage: number;
+      temperature: number;
     };
 } {
   const {
@@ -105,6 +120,7 @@ export function calculateEnhancedLoss(channel: Partial<Channel>): {
     groundwaterDepth,
     season,
     soilType = 'loam',
+    temperature,
   } = channel;
 
   // Базовая потеря (фильтрация)
@@ -117,9 +133,10 @@ export function calculateEnhancedLoss(channel: Partial<Channel>): {
   const seasonCoeff = season ? SEASON_COEFFICIENTS[season] || 1.0 : 1.0;
   const soilCoeff = SOIL_TYPE_COEFFICIENTS[soilType] || 1.0;
   const coverageCoeff = COVERAGE_COEFFICIENTS[coverage] || 1.0;
+  const temperatureCoeff = getTemperatureCoefficient(temperature);
 
-  // Улучшенная потеря с учетом всех факторов
-  const enhancedLoss = baseLoss * conditionCoeff * vegetationCoeff * groundwaterCoeff * seasonCoeff * soilCoeff * coverageCoeff;
+  // Улучшенная потеря с учетом всех факторов, включая температуру
+  const enhancedLoss = baseLoss * conditionCoeff * vegetationCoeff * groundwaterCoeff * seasonCoeff * soilCoeff * coverageCoeff * temperatureCoeff;
 
   // Процент потерь
   const lossPercentage = waterVolumeIn > 0 ? (enhancedLoss / waterVolumeIn) * 100 : 0;
@@ -139,6 +156,7 @@ export function calculateEnhancedLoss(channel: Partial<Channel>): {
       season: seasonCoeff,
       soilType: soilCoeff,
       coverage: coverageCoeff,
+      temperature: temperatureCoeff,
     },
   };
 }

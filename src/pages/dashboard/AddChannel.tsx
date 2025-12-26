@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, useMapEvents, Marker } from 'react-leaflet';
 import { Form, Input, InputNumber, Select, Button, Card, message, Space, Upload, DatePicker, Divider } from 'antd';
 import { UploadOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useChannelsStore } from '../../stores/channelsStore';
+import { useChannelsStore, type Channel } from '../../stores/channelsStore';
 import { useNavigate } from 'react-router-dom';
 import { calculateEnhancedLoss, determineChannelStatus, getSeasonFromDate } from '../../utils/lossCalculation';
 import dayjs from 'dayjs';
@@ -80,21 +80,43 @@ export default function AddChannel() {
 
     setIsSubmitting(true);
     try {
+      // Получаем температуру для координат канала
+      let temperature: number | undefined;
+      try {
+        const weatherResponse = await fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=${selectedPoint[0]}&longitude=${selectedPoint[1]}&current=temperature_2m&timezone=auto`
+        );
+        if (weatherResponse.ok) {
+          const weatherData = await weatherResponse.json();
+          temperature = weatherData.current?.temperature_2m;
+        }
+      } catch (error) {
+        console.warn('Не удалось получить температуру:', error);
+        // Продолжаем без температуры, используем сезонный коэффициент
+      }
       // Определяем сезон из даты измерения или текущей даты
       const measurementDate = values.measurementDate ? dayjs(values.measurementDate).toDate() : new Date();
       const season = getSeasonFromDate(measurementDate);
 
-      // Улучшенный расчет потерь с учетом всех факторов
+      // Приведение типов для расчета потерь
+      const coverageForCalc = values.coverage as Channel['coverage'];
+      const conditionForCalc = (values.condition || 'satisfactory') as Channel['condition'];
+      const vegetationForCalc = (values.vegetation || 'moderate') as Channel['vegetation'];
+      const soilTypeForCalc = (values.soilType || 'loam') as Channel['soilType'];
+
+      // Улучшенный расчет потерь с учетом всех факторов, включая температуру
       const channelData = {
         waterVolumeIn: values.waterVolumeIn,
         waterVolumeOut: values.waterVolumeOut,
         length: values.length,
         filtrationCoefficient: values.filtrationCoefficient || 2.08,
-        condition: values.condition || 'satisfactory',
-        vegetation: values.vegetation || 'moderate',
+        coverage: coverageForCalc,
+        condition: conditionForCalc,
+        vegetation: vegetationForCalc,
         groundwaterDepth: values.groundwaterDepth,
         season,
-        soilType: values.soilType || 'loam',
+        soilType: soilTypeForCalc,
+        temperature, // Температура из прогноза погоды для координат канала
       };
 
       const lossCalculation = calculateEnhancedLoss(channelData);
@@ -104,7 +126,18 @@ export default function AddChannel() {
       const actualLossPercentage = values.waterVolumeIn > 0 ? (actualLoss / values.waterVolumeIn) * 100 : 0;
       
       // Определение статуса с учетом состояния
-      const status = determineChannelStatus(actualLossPercentage, values.condition || 'satisfactory');
+      const conditionValue = (values.condition || 'satisfactory') as Channel['condition'];
+      const status = determineChannelStatus(actualLossPercentage, conditionValue);
+
+      // Приведение типов для соответствия интерфейсу Channel
+      const coverageValue = values.coverage as Channel['coverage'];
+      const vegetationValue = (values.vegetation || 'moderate') as Channel['vegetation'];
+      const soilTypeValue = (values.soilType || 'loam') as Channel['soilType'];
+
+      // Проверяем обязательные поля перед добавлением
+      if (!values.name || !values.length || !values.width || !values.depth || !coverageValue) {
+        throw new Error('Не все обязательные поля заполнены');
+      }
 
       addChannel({
         name: values.name,
@@ -112,7 +145,7 @@ export default function AddChannel() {
         length: values.length,
         width: values.width,
         depth: values.depth,
-        coverage: values.coverage,
+        coverage: coverageValue,
         waterFlow: values.waterFlow || 0,
         waterVolumeIn: values.waterVolumeIn,
         waterVolumeOut: values.waterVolumeOut,
@@ -123,11 +156,11 @@ export default function AddChannel() {
         efficiency: lossCalculation.efficiency,
         status,
         photo: photoBase64 || undefined,
-        condition: values.condition || 'satisfactory',
-        vegetation: values.vegetation || 'moderate',
+        condition: conditionValue,
+        vegetation: vegetationValue,
         groundwaterDepth: values.groundwaterDepth,
         season,
-        soilType: values.soilType || 'loam',
+        soilType: soilTypeValue,
         slope: values.slope,
         lastMaintenanceDate: values.lastMaintenanceDate ? dayjs(values.lastMaintenanceDate).toISOString() : undefined,
       });
@@ -139,7 +172,9 @@ export default function AddChannel() {
       setPhotoBase64(null);
       navigate('/dashboard/channels');
     } catch (error) {
-      message.error(t('addChannel.error', 'Ошибка при добавлении канала'));
+      console.error('Ошибка при добавлении канала:', error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      message.error(`${t('addChannel.error', 'Ошибка при добавлении канала')}: ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }

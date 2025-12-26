@@ -13,6 +13,8 @@ import {
   TableOutlined,
   CloudOutlined,
   BarChartOutlined,
+  DatabaseOutlined,
+  CloseOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import './Header.scss';
@@ -155,6 +157,15 @@ export default function Header() {
       },
     },
     {
+      key: '/dashboard/source-data',
+      icon: <DatabaseOutlined />,
+      label: t('dashboard.sourceData', 'Исходные данные'),
+      onClick: () => {
+        navigate('/dashboard/source-data');
+        setMobileMenuOpen(false);
+      },
+    },
+    {
       key: '/dashboard/weather',
       icon: <CloudOutlined />,
       label: t('dashboard.weather', 'Прогноз погоды'),
@@ -192,7 +203,7 @@ export default function Header() {
         {/* Logo */}
         <Link to="/" className="header-logo" onClick={() => setMobileMenuOpen(false)}>
           <div className="logo-icon">
-            <Logo />
+            <Logo className="w-8 h-8" />
           </div>
           <span className="logo-text desktop-only">
             {t('header.title', 'Smart Water Control')}
@@ -213,22 +224,22 @@ export default function Header() {
           ) : isHomePage ? (
             <>
               <button
-                onClick={() => scrollToSection('map')}
+                onClick={() => scrollToSection('features')}
                 className="nav-link"
               >
-                {t('header.map', 'Карта')}
+                {t('header.features', 'Возможности')}
               </button>
               <button
-                onClick={() => scrollToSection('calculator')}
+                onClick={() => scrollToSection('benefits')}
                 className="nav-link"
               >
-                {t('header.calculator', 'Калькулятор')}
+                {t('header.benefits', 'Преимущества')}
               </button>
               <button
-                onClick={() => scrollToSection('analytics')}
+                onClick={() => scrollToSection('stats')}
                 className="nav-link"
               >
-                {t('header.analytics', 'Аналитика')}
+                {t('header.stats', 'Статистика')}
               </button>
               <button
                 onClick={() => scrollToSection('about')}
@@ -252,6 +263,7 @@ export default function Header() {
               <div className="user-avatar">
                 <Avatar
                   size="default"
+                  src={user?.avatar}
                   icon={<UserOutlined />}
                   style={{ background: 'linear-gradient(135deg, #3b82f6, #06b6d4)', cursor: 'pointer' }}
                 />
@@ -291,8 +303,15 @@ export default function Header() {
       </div>
 
       {/* Mobile Menu - Fullscreen */}
-      <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`} onClick={() => setMobileMenuOpen(false)}>
-        <div className="mobile-menu-content" onClick={(e) => e.stopPropagation()}>
+      <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
+        <div className="mobile-menu-content">
+          <button
+            className="mobile-menu-close"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Close menu"
+          >
+            <CloseOutlined />
+          </button>
           {/* Dashboard Menu Items */}
           {isAuthenticated && isDashboard ? (
             <>
@@ -335,15 +354,14 @@ export default function Header() {
             </>
           ) : isHomePage ? (
             <>
-              <button onClick={() => scrollToSection('map')} className="mobile-nav-link">
-                <EnvironmentOutlined />
-                <span>{t('header.map', 'Карта')}</span>
+              <button onClick={() => scrollToSection('features')} className="mobile-nav-link">
+                <span>{t('header.features', 'Возможности')}</span>
               </button>
-              <button onClick={() => scrollToSection('calculator')} className="mobile-nav-link">
-                <span>{t('header.calculator', 'Калькулятор')}</span>
+              <button onClick={() => scrollToSection('benefits')} className="mobile-nav-link">
+                <span>{t('header.benefits', 'Преимущества')}</span>
               </button>
-              <button onClick={() => scrollToSection('analytics')} className="mobile-nav-link">
-                <span>{t('header.analytics', 'Аналитика')}</span>
+              <button onClick={() => scrollToSection('stats')} className="mobile-nav-link">
+                <span>{t('header.stats', 'Статистика')}</span>
               </button>
               <button onClick={() => scrollToSection('about')} className="mobile-nav-link">
                 <span>{t('header.about', 'О проекте')}</span>

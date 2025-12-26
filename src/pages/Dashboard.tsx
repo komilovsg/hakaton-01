@@ -10,6 +10,8 @@ import {
   TableOutlined,
   CloudOutlined,
   BarChartOutlined,
+  DatabaseOutlined,
+  CalculatorOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
@@ -64,6 +66,16 @@ export default function Dashboard() {
       key: '/dashboard/chart',
       icon: <BarChartOutlined />,
       label: t('dashboard.chart', 'Графики'),
+    },
+    {
+      key: '/dashboard/source-data',
+      icon: <DatabaseOutlined />,
+      label: t('dashboard.sourceData', 'Исходные данные'),
+    },
+    {
+      key: '/dashboard/calculations',
+      icon: <CalculatorOutlined />,
+      label: t('dashboard.calculations', 'Расчеты'),
     },
     {
       key: '/dashboard/weather',

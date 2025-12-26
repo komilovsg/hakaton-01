@@ -5,6 +5,7 @@ interface User {
   id: string;
   name: string;
   email: string;
+  avatar?: string; // base64 строка изображения
 }
 
 interface AuthState {
@@ -12,6 +13,8 @@ interface AuthState {
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
+  updateAvatar: (avatar: string) => void;
+  removeAvatar: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -42,6 +45,34 @@ export const useAuthStore = create<AuthState>()(
         set({
           user: null,
           isAuthenticated: false,
+        });
+      },
+
+      updateAvatar: (avatar: string) => {
+        set((state) => {
+          if (state.user) {
+            return {
+              user: {
+                ...state.user,
+                avatar,
+              },
+            };
+          }
+          return state;
+        });
+      },
+
+      removeAvatar: () => {
+        set((state) => {
+          if (state.user) {
+            return {
+              user: {
+                ...state.user,
+                avatar: undefined,
+              },
+            };
+          }
+          return state;
         });
       },
     }),
