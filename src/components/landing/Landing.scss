@@ -234,10 +234,34 @@
 
   // Benefits Section
   .benefits-section {
+    position: relative;
     padding: 100px 0;
     background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+    overflow: hidden;
+
+    .benefits-waves {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      overflow: hidden;
+      z-index: 1;
+
+      .benefits-wave {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        color: rgba(2, 132, 199, 0.15);
+        animation: wave-animation 8s ease-in-out infinite;
+      }
+    }
 
     .benefits-content {
+      position: relative;
+      z-index: 2;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 60px;
@@ -317,61 +341,6 @@
           transition: all 0.3s ease;
           position: relative;
           z-index: 1;
-        }
-
-        .water-animation {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          pointer-events: none;
-          z-index: 2;
-          border-radius: 16px;
-          overflow: hidden;
-
-          .water-drop {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, rgba(2, 132, 199, 0.8) 0%, rgba(14, 165, 233, 0.8) 100%);
-            border-radius: 50% 50% 50% 0;
-            transform: rotate(-45deg);
-            animation: drop-fall 3s ease-in-out infinite;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
-            backdrop-filter: blur(2px);
-
-            &.drop-1 {
-              top: 10%;
-              left: 15%;
-              animation-delay: 0s;
-            }
-
-            &.drop-2 {
-              top: 20%;
-              right: 20%;
-              animation-delay: 0.6s;
-            }
-
-            &.drop-3 {
-              top: 50%;
-              left: 10%;
-              animation-delay: 1.2s;
-            }
-
-            &.drop-4 {
-              top: 60%;
-              right: 15%;
-              animation-delay: 1.8s;
-            }
-
-            &.drop-5 {
-              top: 30%;
-              left: 50%;
-              transform: translateX(-50%) rotate(-45deg);
-              animation-delay: 2.4s;
-            }
-          }
         }
       }
     }

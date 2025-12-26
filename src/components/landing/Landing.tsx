@@ -205,6 +205,11 @@ export default function Landing() {
 
       {/* Benefits Section */}
       <section id="benefits" className="benefits-section">
+        <div className="benefits-waves">
+          <svg className="benefits-wave" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,60 C300,100 600,20 900,60 C1050,80 1150,40 1200,60 L1200,120 L0,120 Z" fill="currentColor" />
+          </svg>
+        </div>
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -245,13 +250,6 @@ export default function Landing() {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               />
-              <div className="water-animation">
-                <div className="water-drop drop-1"></div>
-                <div className="water-drop drop-2"></div>
-                <div className="water-drop drop-3"></div>
-                <div className="water-drop drop-4"></div>
-                <div className="water-drop drop-5"></div>
-              </div>
             </motion.div>
           </motion.div>
         </div>
