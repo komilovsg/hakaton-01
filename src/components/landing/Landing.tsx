@@ -14,6 +14,7 @@ import {
 } from '@ant-design/icons';
 import lending1 from '../../assets/lending-1.png';
 import lending2 from '../../assets/lending-2.png';
+import WaterEffect from '../water-effect/WaterEffect';
 import './Landing.scss';
 
 export default function Landing() {
@@ -102,6 +103,7 @@ export default function Landing() {
             <path d="M0,60 C300,20 600,100 900,60 C1050,40 1150,80 1200,60 L1200,120 L0,120 Z" fill="currentColor" />
           </svg>
         </div>
+        <WaterEffect className="hero-water-effect" color="#bae6fd" />
         <div className="hero-content">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -250,6 +252,7 @@ export default function Landing() {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               />
+              <WaterEffect className="benefits-water-effect" />
             </motion.div>
           </motion.div>
         </div>

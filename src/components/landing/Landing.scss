@@ -54,9 +54,20 @@
       }
     }
 
+    .hero-water-effect {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: auto;
+      cursor: crosshair;
+    }
+
     .hero-content {
       position: relative;
-      z-index: 2;
+      z-index: 3;
       text-align: center;
       padding: 60px 20px;
       max-width: 900px;
@@ -326,7 +337,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        overflow: visible;
+        overflow: hidden;
+        border-radius: 16px;
+        cursor: crosshair;
 
         @media (max-width: 968px) {
           height: 300px;
@@ -340,7 +353,18 @@
           box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
           transition: all 0.3s ease;
           position: relative;
-          z-index: 1;
+          z-index: 2;
+        }
+
+        .benefits-water-effect {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 3;
+          pointer-events: auto;
+          border-radius: 16px;
         }
       }
     }

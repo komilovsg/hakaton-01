@@ -23,6 +23,24 @@
       color: white;
       -webkit-text-fill-color: white;
     }
+
+    .header-language-switcher {
+      .lang-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.3);
+          border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        &.active {
+          background: rgba(255, 255, 255, 0.4);
+          border-color: rgba(255, 255, 255, 0.6);
+        }
+      }
+    }
   }
 
   &.scrolled {
@@ -136,6 +154,17 @@
 
   .header-actions {
     display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .header-language-switcher {
+      display: flex;
+      align-items: center;
+      
+      @media (max-width: 767px) {
+        display: none;
+      }
+    }
     align-items: center;
     gap: 1rem;
 
@@ -359,6 +388,13 @@
       .mobile-menu-divider {
         padding-top: 0.5rem;
         border-top: 1px solid #e5e7eb;
+      }
+
+      .mobile-language-switcher {
+        display: flex;
+        justify-content: center;
+        padding: 1rem;
+        margin: 0.5rem 0;
       }
 
       .mobile-login-button {

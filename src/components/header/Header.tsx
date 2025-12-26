@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../stores/authStore';
 import Logo from './Logo';
+import LanguageSwitcher from '../language-switcher/LanguageSwitcher';
 import { Dropdown, Avatar } from 'antd';
 import {
   UserOutlined,
@@ -257,6 +258,11 @@ export default function Header() {
 
         {/* Right Side Actions */}
         <div className="header-actions">
+          {/* Language Switcher */}
+          <div className="header-language-switcher">
+            <LanguageSwitcher />
+          </div>
+          
           {/* Desktop User Avatar / Login Button */}
           {isAuthenticated ? (
             <Dropdown menu={{ items: userMenuItems }} placement="bottomRight" className="desktop-only">
@@ -367,6 +373,9 @@ export default function Header() {
                 <span>{t('header.about', 'О проекте')}</span>
               </button>
               <div className="mobile-menu-divider"></div>
+              <div className="mobile-language-switcher">
+                <LanguageSwitcher />
+              </div>
               <button
                 onClick={() => {
                   navigate('/login');
@@ -383,6 +392,9 @@ export default function Header() {
                 <span>{t('header.home', 'Главная')}</span>
               </Link>
               <div className="mobile-menu-divider"></div>
+              <div className="mobile-language-switcher">
+                <LanguageSwitcher />
+              </div>
               <button
                 onClick={() => {
                   navigate('/login');
