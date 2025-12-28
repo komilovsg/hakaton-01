@@ -14,4 +14,27 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // React и React DOM
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          // Ant Design
+          'antd': ['antd'],
+          // Карты
+          'maps': ['leaflet', 'react-leaflet', '@2gis/mapgl'],
+          // Графики
+          'charts': ['recharts'],
+          // Three.js
+          'three': ['three'],
+          // Утилиты
+          'utils': ['dayjs', 'zustand', 'i18next', 'react-i18next', 'i18next-browser-languagedetector'],
+          // Анимации
+          'animations': ['framer-motion'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000, // Увеличиваем лимит до 1MB
+  },
 })

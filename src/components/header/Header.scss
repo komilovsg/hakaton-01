@@ -6,6 +6,13 @@
   z-index: 1000;
   transition: all 0.3s ease;
   width: 100%;
+  
+  /* Prevent body scroll when mobile menu is open */
+  body.menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
 
   &.transparent {
     background: transparent;
@@ -38,6 +45,26 @@
         &.active {
           background: rgba(255, 255, 255, 0.4);
           border-color: rgba(255, 255, 255, 0.6);
+        }
+      }
+    }
+
+    .mobile-menu-toggle {
+      span {
+        background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      }
+
+      &.open {
+        span:nth-child(1) {
+          background: linear-gradient(135deg, #3b82f6, #06b6d4);
+        }
+
+        span:nth-child(2) {
+          background: linear-gradient(135deg, #3b82f6, #06b6d4);
+        }
+
+        span:nth-child(3) {
+          background: linear-gradient(135deg, #3b82f6, #06b6d4);
         }
       }
     }
@@ -148,7 +175,7 @@
       font-family: inherit;
       padding: 0.5rem 0;
       transition: color 0.3s ease;
-      // Цвет будет установлен через .transparent или .scrolled классы
+      /* Цвет будет установлен через .transparent или .scrolled классы */
     }
   }
 
@@ -237,7 +264,7 @@
       span {
         width: 100%;
         height: 3px;
-        background: #374151;
+        background: linear-gradient(135deg, #3b82f6, #06b6d4);
         border-radius: 2px;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         display: block;
@@ -246,7 +273,6 @@
       &.open {
         span:nth-child(1) {
           transform: rotate(45deg) translate(8px, 8px);
-          background: #374151;
         }
 
         span:nth-child(2) {
@@ -256,7 +282,6 @@
 
         span:nth-child(3) {
           transform: rotate(-45deg) translate(8px, -8px);
-          background: #374151;
         }
       }
     }
@@ -268,9 +293,15 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: transparent;
-    z-index: 9999;
+    width: 100vw;
+    height: 100vh;
+    background: white;
+    z-index: 10000;
     pointer-events: none;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s;
 
     @media (min-width: 768px) {
       display: none;
@@ -278,25 +309,104 @@
 
     &.open {
       pointer-events: auto;
+      opacity: 1;
+      visibility: visible;
     }
 
     .mobile-menu-content {
-      position: absolute;
+      position: fixed;
       top: 0;
+      left: 0;
       right: 0;
       bottom: 0;
       width: 100%;
-      max-width: 320px;
+      height: 100vh;
       background: white;
-      padding: 5rem 1.5rem 2rem;
+      padding: 1rem 1.5rem 2rem;
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      transform: translateX(100%);
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       overflow-y: auto;
-      box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
-      z-index: 10000;
+      z-index: 10001;
+
+      .mobile-menu-logo {
+        padding: 1.5rem 0;
+        border-bottom: 1px solid #e5e7eb;
+        margin-bottom: 1rem;
+
+        a {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          text-decoration: none;
+          transition: transform 0.2s;
+
+          &:hover {
+            transform: scale(1.02);
+          }
+
+          .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 10px;
+            flex-shrink: 0;
+          }
+
+          .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #2563eb, #06b6d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            line-height: 1.2;
+
+            @media (max-width: 480px) {
+              font-size: 1.25rem;
+            }
+          }
+        }
+      }
+
+      .mobile-menu-close-fullscreen {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f3f4f6;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.2s;
+        z-index: 10002;
+        color: #374151;
+        padding: 0;
+
+        &:hover {
+          background: #e5e7eb;
+          transform: scale(1.1);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
 
       .mobile-menu-close {
         position: absolute;
@@ -393,8 +503,21 @@
       .mobile-language-switcher {
         display: flex;
         justify-content: center;
-        padding: 1rem;
-        margin: 0.5rem 0;
+        padding: 1.5rem 1rem;
+        margin: 1rem 0;
+        
+        .language-switcher {
+          gap: 16px;
+          
+          .lang-btn {
+            padding: 14px 24px;
+            font-size: 28px;
+            border-width: 2px;
+            min-width: 70px;
+            min-height: 60px;
+            border-radius: 8px;
+          }
+        }
       }
 
       .mobile-login-button {
@@ -447,8 +570,59 @@
       }
     }
 
-    &.open .mobile-menu-content {
-      transform: translateX(0);
-    }
+  }
+}
+
+/* Скрыть элементы управления картой когда открыто мобильное меню */
+body.mobile-menu-open {
+  /* Leaflet элементы управления - более агрессивные селекторы */
+  .leaflet-control-zoom,
+  .leaflet-control-zoom-in,
+  .leaflet-control-zoom-out,
+  .leaflet-control-attribution,
+  .leaflet-control-layers,
+  .leaflet-top,
+  .leaflet-right,
+  .leaflet-bottom,
+  .leaflet-left,
+  .leaflet-top.leaflet-right,
+  .leaflet-top.leaflet-left,
+  .leaflet-bottom.leaflet-right,
+  .leaflet-bottom.leaflet-left {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    z-index: -9999 !important;
+  }
+  
+  /* 2GIS MapGL элементы управления */
+  [class*="dg-controls"],
+  [class*="dg-zoom"],
+  [class*="dg-attribution"],
+  [id*="dg-controls"],
+  [id*="dg-zoom"],
+  div[class*="control"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    z-index: -9999 !important;
+  }
+  
+  /* Универсальное правило для всех элементов управления картой внутри контейнеров */
+  .map-container .leaflet-control,
+  .map-wrapper .leaflet-control,
+  #map-2gis-container [class*="control"],
+  [class*="leaflet-control"],
+  [class*="dg-control"],
+  div.leaflet-control-zoom,
+  a.leaflet-control-zoom-in,
+  a.leaflet-control-zoom-out {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    z-index: -9999 !important;
   }
 }

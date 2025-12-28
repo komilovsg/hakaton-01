@@ -5,7 +5,6 @@ import { EnvironmentOutlined, CloudOutlined, ThunderboltOutlined, SearchOutlined
 import './Weather.scss';
 
 const { Title, Text } = Typography;
-const { Search } = Input;
 
 interface WeatherData {
   location: {
@@ -73,7 +72,6 @@ export default function Weather() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchCity, setSearchCity] = useState('');
   const [cityInput, setCityInput] = useState('');
 
   // Координаты Душанбе, Таджикистан (по умолчанию)

@@ -345,7 +345,7 @@ export default function AddChannel() {
               />
             </Form.Item>
 
-            <Divider orientation="left">{t('addChannel.additionalFactors', 'Дополнительные факторы')}</Divider>
+            <Divider>{t('addChannel.additionalFactors', 'Дополнительные факторы')}</Divider>
 
             <Form.Item
               name="condition"

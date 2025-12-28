@@ -319,7 +319,9 @@ export default function WaterEffect({ className = '', color = '#0284c7' }: Water
       raindropsRef.current.forEach((drop) => {
         scene.remove(drop);
         drop.geometry.dispose();
-        drop.material.dispose();
+        if (drop.material && !Array.isArray(drop.material)) {
+          drop.material.dispose();
+        }
       });
       raindropsRef.current = [];
       

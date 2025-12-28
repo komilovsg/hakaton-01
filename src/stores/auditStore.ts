@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Channel } from './channelsStore';
 
 export interface AuditLog {
   id: string;
