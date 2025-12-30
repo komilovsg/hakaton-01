@@ -1,3 +1,4 @@
+
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +17,8 @@ import lending1 from '../../assets/lending-1.png';
 import lending2 from '../../assets/lending-2.png';
 import WaterEffect from '../water-effect/WaterEffect';
 import './Landing.scss';
+import Aurora from './Aurora';
+import GlareHover from '../glare-hover/GlareHover';
 
 export default function Landing() {
   const { t } = useTranslation();
@@ -95,14 +98,12 @@ export default function Landing() {
     <div className="landing">
       {/* Hero Section with Animated Waves */}
       <section className="hero-section">
-        <div className="waves-container">
-          <svg className="wave wave-top" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M0,60 C300,100 600,20 900,60 C1050,80 1150,40 1200,60 L1200,0 L0,0 Z" fill="currentColor" />
-          </svg>
-          <svg className="wave wave-bottom" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M0,60 C300,20 600,100 900,60 C1050,40 1150,80 1200,60 L1200,120 L0,120 Z" fill="currentColor" />
-          </svg>
-        </div>
+        <Aurora
+          colorStops={["#0284c7", "#06b6d4", "#0ea5e9"]}
+          blend={0.6}
+          amplitude={1.2}
+          speed={0.3}
+        />
         <WaterEffect className="hero-water-effect" color="#bae6fd" />
         <div className="hero-content">
           <motion.div
@@ -152,8 +153,8 @@ export default function Landing() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="features-section">
-        <div className="container">
+      <section id="features" className="features-section" style={{ position: 'relative', overflow: 'visible' }}>
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -173,13 +174,29 @@ export default function Landing() {
             transition={{ duration: 0.6 }}
             className="features-image-showcase"
           >
-            <motion.img
-              src={lending2}
-              alt="Water control system"
-              className="showcase-image"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-            />
+            <GlareHover
+              width="100%"
+              height="auto"
+              background="transparent"
+              borderRadius="16px"
+              borderColor="transparent"
+              glareColor="#ffffff"
+              glareOpacity={0.6}
+              glareAngle={-45}
+              glareSize={200}
+              transitionDuration={1200}
+              className="features-glare-wrapper"
+              style={{ border: 'none', display: 'block', position: 'relative' }}
+            >
+              <motion.img
+                src={lending2}
+                alt="Water control system"
+                className="showcase-image"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+                style={{ width: '100%', height: 'auto', display: 'block', position: 'relative', zIndex: 1 }}
+              />
+            </GlareHover>
           </motion.div>
 
           <motion.div
@@ -188,6 +205,7 @@ export default function Landing() {
             whileInView="visible"
             viewport={{ once: true }}
             className="features-grid"
+            style={{ position: 'relative', zIndex: 0 }}
           >
             {features.map((feature, index) => (
               <motion.div
@@ -245,13 +263,29 @@ export default function Landing() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="benefits-visual"
             >
-              <motion.img
-                src={lending1}
-                alt="Water management system"
-                className="benefits-image"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              />
+              <GlareHover
+                width="100%"
+                height="100%"
+                background="transparent"
+                borderRadius="16px"
+                borderColor="transparent"
+                glareColor="#06b6d4"
+                glareOpacity={0.5}
+                glareAngle={-45}
+                glareSize={250}
+                transitionDuration={1200}
+                className="benefits-glare-wrapper"
+                style={{ border: 'none', position: 'relative' }}
+              >
+                <motion.img
+                  src={lending1}
+                  alt="Water management system"
+                  className="benefits-image"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </GlareHover>
               <WaterEffect className="benefits-water-effect" />
             </motion.div>
           </motion.div>
@@ -259,8 +293,8 @@ export default function Landing() {
       </section>
 
       {/* Stats Section */}
-      <section id="stats" className="stats-section">
-        <div className="container">
+      <section id="stats" className="stats-section" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -382,6 +416,7 @@ export default function Landing() {
           </motion.div>
         </div>
       </section>
+
 
       {/* Footer */}
       <footer className="landing-footer">

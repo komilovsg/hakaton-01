@@ -6,7 +6,9 @@
   z-index: 1000;
   transition: all 0.3s ease;
   width: 100%;
-  
+  padding: 1rem;
+  background: transparent;
+
   /* Prevent body scroll when mobile menu is open */
   body.menu-open {
     overflow: hidden;
@@ -16,6 +18,11 @@
 
   &.transparent {
     background: transparent;
+
+    .header-container {
+      background: rgba(30, 41, 59, 0.4);
+      backdrop-filter: blur(20px);
+    }
 
     .nav-link,
     .mobile-nav-link {
@@ -71,40 +78,76 @@
   }
 
   &.scrolled {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+
+    .header-container {
+      background: rgba(30, 41, 59, 0.5);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
 
     .nav-link,
     .mobile-nav-link {
-      color: #374151;
+      color: #ffffff;
 
       &:hover {
-        color: #111827;
+        color: rgba(255, 255, 255, 0.8);
       }
     }
 
     .logo-text {
-      background: linear-gradient(to right, #2563eb, #06b6d4);
+      background: linear-gradient(to right, #3b82f6, #06b6d4);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
       color: transparent;
+    }
+
+    .header-language-switcher {
+      .lang-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        backdrop-filter: blur(10px);
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.2);
+          border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        &.active {
+          background: rgba(6, 182, 212, 0.3);
+          border-color: rgba(6, 182, 212, 0.5);
+          color: #06b6d4;
+        }
+      }
     }
   }
 
   .header-container {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 0.75rem 1.5rem;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(20px);
+    border-radius: 44px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+    @media (max-width: 768px) {
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+    }
 
     @media (min-width: 768px) {
-      padding: 1.25rem 2rem;
+      padding: 1rem 2rem;
     }
   }
 
